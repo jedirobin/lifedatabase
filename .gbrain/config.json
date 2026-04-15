@@ -1,0 +1,51 @@
+{
+  "version": "1.0",
+  "knowledgebase": {
+    "name": "lifedatabase",
+    "created": "2024-01-01",
+    "sync": {
+      "github_repo": "lifedatabase",
+      "branch": "main",
+      "auto_sync": true,
+      "sync_interval": "daily"
+    }
+  },
+  "dream_config": {
+    "enabled": true,
+    "schedule": "02:00",
+    "timezone": "Asia/Shanghai",
+    "tasks": [
+      "scan_conversations",
+      "extract_knowledge",
+      "update_memory",
+      "update_index",
+      "generate_daily_report"
+    ],
+    "notification": {
+      "enabled": true,
+      "method": "log"
+    }
+  },
+  "search": {
+    "engine": "sqlite_fts5",
+    "db_path": ".gbrain/gbrain.db",
+    "index_paths": [
+      "memory/**/*.md",
+      "sources/**/*.md"
+    ]
+  },
+  "collection": {
+    "bilibili": {
+      "enabled": false,
+      "method": "browser_automation"
+    },
+    "douyin": {
+      "enabled": false,
+      "method": "browser_automation"
+    },
+    "xiaohongshu": {
+      "enabled": false,
+      "method": "browser_automation"
+    }
+  }
+}
