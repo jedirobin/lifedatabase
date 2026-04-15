@@ -1,0 +1,25 @@
+# Obsidian
+.obsidian/
+.trash/
+
+# 系统文件
+.DS_Store
+Thumbs.db
+*.log
+
+# 临时文件
+*.tmp
+*.temp
+.tmp/
+
+# 敏感信息
+SECRET.md
+*.secret
+*.key
+*.pem
+
+# 大文件（视频等）
+*.mp4
+*.mov
+*.avi
+*.mkv
