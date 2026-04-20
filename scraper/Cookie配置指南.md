@@ -118,4 +118,115 @@ A: 检查这三点：
 
 ---
 
+## 🛒 电商平台 Cookie 配置
+
+---
+
+### 🟣 闲鱼 Cookie 配置
+
+#### 步骤 1 - 获取Cookie
+1. 访问：https://2.taobao.com/ （闲鱼官网）
+2. **用淘宝账号扫码登录**
+3. 按 **F12** → 「网络」标签页
+4. 按 **F5刷新**，点击第一个名称为 `2.taobao.com` 的请求
+5. 「请求标头」→ 找到 `Cookie:` 一行
+6. **复制冒号后面的全部内容**
+
+#### 关键Cookie验证：
+必须包含这些字段：
+- `cookie2=`
+- `t=`
+- `_tb_token_=`
+- `unb=`
+
+#### 步骤 2 - 填入.env
+```env
+XIANYU_COOKIE=cookie2=xxxxxx; t=xxxxxx; _tb_token_=xxxxxx; unb=xxxxxx;
+```
+
+---
+
+### 🟡 1688 Cookie 配置
+
+#### 步骤 1 - 获取Cookie
+1. 访问：https://www.1688.com
+2. **用淘宝/支付宝账号登录**
+3. 按 **F12** → 「应用程序」→ 「Cookie」
+4. 点击 `https://www.1688.com`
+
+#### 关键Cookie验证：
+必须包含这些字段：
+- `_csrf_token=`
+- `cookie2=`
+- `isg=`
+
+#### 快速复制方法：
+「网络」标签页 → 刷新 → 点击第一个请求 → 请求头 → 复制 `Cookie:` 全部内容
+
+#### 步骤 2 - 填入.env
+```env
+1688_COOKIE=_csrf_token=xxxxxx; cookie2=xxxxxx; isg=xxxxxx;
+```
+
+---
+
+### 🔵 拼多多 Cookie 配置
+
+#### 步骤 1 - 获取Cookie
+1. 访问：https://www.pinduoduo.com （或者 https://mms.pinduoduo.com 商家后台）
+2. **微信扫码登录**
+3. F12 → 「网络」→ 刷新
+4. 点击第一个主站请求 → 复制完整Cookie
+
+#### 关键Cookie验证：
+- `pdd_user_id=`
+- `pdd_token=`
+- `PDDAccessToken=`
+
+#### 步骤 2 - 填入.env
+```env
+PINDUODUO_COOKIE=pdd_user_id=xxxxxx; pdd_token=xxxxxx; PDDAccessToken=xxxxxx;
+```
+
+---
+
+## 🎯 电商平台使用方法
+
+配置完成后运行：
+```bash
+# 运行电商选品分析
+python main.py -p ecommerce
+```
+
+或者在Web界面中选择「ecommerce」平台一键运行。
+
+**数据产出位置：**
+- `memory/insights/` - 选品分析报告 & 爆款SKILL文档
+- `sources/ecommerce/` - 各平台原始商品数据
+
+---
+
+## ⚠️ 电商平台特别说明
+
+| 平台 | Cookie有效期 | 反爬严格度 | 建议频率 |
+|------|-------------|-----------|---------|
+| 闲鱼 | 约7天 | ⭐⭐ | 每日1-2次 |
+| 1688 | 约30天 | ⭐ | 无特别限制 |
+| 拼多多 | 约1天 | ⭐⭐⭐ | 每日1次 |
+
+> 💡 **提示**：电商平台Cookie失效很快，如果获取不到数据就重新扫码登录获取一次。
+
+---
+
+## 📝 最终检查清单
+
+- [ ] 复制 `.env.example` → `.env`
+- [ ] Chrome/Firefox登录小红书
+- [ ] F12获取完整Cookie字符串
+- [ ] 粘贴到 `XIAOHONGSHU_COOKIE=` 后面
+- [ ] 运行 `python main.py -p xiaohongshu` 测试
+- [ ] （可选）闲鱼/1688/拼多多按同样方法配置Cookie
+
+---
+
 🎉 配置完成！现在可以获取真实的爆款数据了！
