@@ -1,0 +1,362 @@
+[
+  {
+    "video_id": "demo_0",
+    "platform": "xiaohongshu",
+    "search_keyword": "AI动画",
+    "author": {
+      "id": "demo_user",
+      "name": "演示作者",
+      "fans_count": 0,
+      "videos_count": 0,
+      "verified": false
+    },
+    "video_info": {
+      "title": "AI动画_小红书爆款笔记示例_0",
+      "description": "这是演示数据，实际使用请配置Cookie",
+      "duration": "",
+      "publish_time": 1718880000,
+      "cover_url": "",
+      "video_url": "https://www.xiaohongshu.com/item/demo_0",
+      "tags": [
+        "爆款",
+        "干货",
+        "教程"
+      ]
+    },
+    "stats": {
+      "view_count": 0,
+      "like_count": 1000,
+      "comment_count": 100,
+      "share_count": 50,
+      "collect_count": 500,
+      "forward_count": 0,
+      "danmaku_count": 0
+    },
+    "hot_score": 2000,
+    "crawl_time": 1776702149
+  },
+  {
+    "video_id": "demo_1",
+    "platform": "xiaohongshu",
+    "search_keyword": "AI动画",
+    "author": {
+      "id": "demo_user",
+      "name": "演示作者",
+      "fans_count": 0,
+      "videos_count": 0,
+      "verified": false
+    },
+    "video_info": {
+      "title": "AI动画_小红书爆款笔记示例_1",
+      "description": "这是演示数据，实际使用请配置Cookie",
+      "duration": "",
+      "publish_time": 1718880000,
+      "cover_url": "",
+      "video_url": "https://www.xiaohongshu.com/item/demo_1",
+      "tags": [
+        "爆款",
+        "干货",
+        "教程"
+      ]
+    },
+    "stats": {
+      "view_count": 0,
+      "like_count": 1500,
+      "comment_count": 130,
+      "share_count": 60,
+      "collect_count": 700,
+      "forward_count": 0,
+      "danmaku_count": 0
+    },
+    "hot_score": 2800,
+    "crawl_time": 1776702149
+  },
+  {
+    "video_id": "demo_2",
+    "platform": "xiaohongshu",
+    "search_keyword": "AI动画",
+    "author": {
+      "id": "demo_user",
+      "name": "演示作者",
+      "fans_count": 0,
+      "videos_count": 0,
+      "verified": false
+    },
+    "video_info": {
+      "title": "AI动画_小红书爆款笔记示例_2",
+      "description": "这是演示数据，实际使用请配置Cookie",
+      "duration": "",
+      "publish_time": 1718880000,
+      "cover_url": "",
+      "video_url": "https://www.xiaohongshu.com/item/demo_2",
+      "tags": [
+        "爆款",
+        "干货",
+        "教程"
+      ]
+    },
+    "stats": {
+      "view_count": 0,
+      "like_count": 2000,
+      "comment_count": 160,
+      "share_count": 70,
+      "collect_count": 900,
+      "forward_count": 0,
+      "danmaku_count": 0
+    },
+    "hot_score": 3600,
+    "crawl_time": 1776702149
+  },
+  {
+    "video_id": "demo_3",
+    "platform": "xiaohongshu",
+    "search_keyword": "AI动画",
+    "author": {
+      "id": "demo_user",
+      "name": "演示作者",
+      "fans_count": 0,
+      "videos_count": 0,
+      "verified": false
+    },
+    "video_info": {
+      "title": "AI动画_小红书爆款笔记示例_3",
+      "description": "这是演示数据，实际使用请配置Cookie",
+      "duration": "",
+      "publish_time": 1718880000,
+      "cover_url": "",
+      "video_url": "https://www.xiaohongshu.com/item/demo_3",
+      "tags": [
+        "爆款",
+        "干货",
+        "教程"
+      ]
+    },
+    "stats": {
+      "view_count": 0,
+      "like_count": 2500,
+      "comment_count": 190,
+      "share_count": 80,
+      "collect_count": 1100,
+      "forward_count": 0,
+      "danmaku_count": 0
+    },
+    "hot_score": 4400,
+    "crawl_time": 1776702149
+  },
+  {
+    "video_id": "demo_4",
+    "platform": "xiaohongshu",
+    "search_keyword": "AI动画",
+    "author": {
+      "id": "demo_user",
+      "name": "演示作者",
+      "fans_count": 0,
+      "videos_count": 0,
+      "verified": false
+    },
+    "video_info": {
+      "title": "AI动画_小红书爆款笔记示例_4",
+      "description": "这是演示数据，实际使用请配置Cookie",
+      "duration": "",
+      "publish_time": 1718880000,
+      "cover_url": "",
+      "video_url": "https://www.xiaohongshu.com/item/demo_4",
+      "tags": [
+        "爆款",
+        "干货",
+        "教程"
+      ]
+    },
+    "stats": {
+      "view_count": 0,
+      "like_count": 3000,
+      "comment_count": 220,
+      "share_count": 90,
+      "collect_count": 1300,
+      "forward_count": 0,
+      "danmaku_count": 0
+    },
+    "hot_score": 5200,
+    "crawl_time": 1776702149
+  },
+  {
+    "video_id": "demo_5",
+    "platform": "xiaohongshu",
+    "search_keyword": "AI动画",
+    "author": {
+      "id": "demo_user",
+      "name": "演示作者",
+      "fans_count": 0,
+      "videos_count": 0,
+      "verified": false
+    },
+    "video_info": {
+      "title": "AI动画_小红书爆款笔记示例_5",
+      "description": "这是演示数据，实际使用请配置Cookie",
+      "duration": "",
+      "publish_time": 1718880000,
+      "cover_url": "",
+      "video_url": "https://www.xiaohongshu.com/item/demo_5",
+      "tags": [
+        "爆款",
+        "干货",
+        "教程"
+      ]
+    },
+    "stats": {
+      "view_count": 0,
+      "like_count": 3500,
+      "comment_count": 250,
+      "share_count": 100,
+      "collect_count": 1500,
+      "forward_count": 0,
+      "danmaku_count": 0
+    },
+    "hot_score": 6000,
+    "crawl_time": 1776702149
+  },
+  {
+    "video_id": "demo_6",
+    "platform": "xiaohongshu",
+    "search_keyword": "AI动画",
+    "author": {
+      "id": "demo_user",
+      "name": "演示作者",
+      "fans_count": 0,
+      "videos_count": 0,
+      "verified": false
+    },
+    "video_info": {
+      "title": "AI动画_小红书爆款笔记示例_6",
+      "description": "这是演示数据，实际使用请配置Cookie",
+      "duration": "",
+      "publish_time": 1718880000,
+      "cover_url": "",
+      "video_url": "https://www.xiaohongshu.com/item/demo_6",
+      "tags": [
+        "爆款",
+        "干货",
+        "教程"
+      ]
+    },
+    "stats": {
+      "view_count": 0,
+      "like_count": 4000,
+      "comment_count": 280,
+      "share_count": 110,
+      "collect_count": 1700,
+      "forward_count": 0,
+      "danmaku_count": 0
+    },
+    "hot_score": 6800,
+    "crawl_time": 1776702149
+  },
+  {
+    "video_id": "demo_7",
+    "platform": "xiaohongshu",
+    "search_keyword": "AI动画",
+    "author": {
+      "id": "demo_user",
+      "name": "演示作者",
+      "fans_count": 0,
+      "videos_count": 0,
+      "verified": false
+    },
+    "video_info": {
+      "title": "AI动画_小红书爆款笔记示例_7",
+      "description": "这是演示数据，实际使用请配置Cookie",
+      "duration": "",
+      "publish_time": 1718880000,
+      "cover_url": "",
+      "video_url": "https://www.xiaohongshu.com/item/demo_7",
+      "tags": [
+        "爆款",
+        "干货",
+        "教程"
+      ]
+    },
+    "stats": {
+      "view_count": 0,
+      "like_count": 4500,
+      "comment_count": 310,
+      "share_count": 120,
+      "collect_count": 1900,
+      "forward_count": 0,
+      "danmaku_count": 0
+    },
+    "hot_score": 7600,
+    "crawl_time": 1776702149
+  },
+  {
+    "video_id": "demo_8",
+    "platform": "xiaohongshu",
+    "search_keyword": "AI动画",
+    "author": {
+      "id": "demo_user",
+      "name": "演示作者",
+      "fans_count": 0,
+      "videos_count": 0,
+      "verified": false
+    },
+    "video_info": {
+      "title": "AI动画_小红书爆款笔记示例_8",
+      "description": "这是演示数据，实际使用请配置Cookie",
+      "duration": "",
+      "publish_time": 1718880000,
+      "cover_url": "",
+      "video_url": "https://www.xiaohongshu.com/item/demo_8",
+      "tags": [
+        "爆款",
+        "干货",
+        "教程"
+      ]
+    },
+    "stats": {
+      "view_count": 0,
+      "like_count": 5000,
+      "comment_count": 340,
+      "share_count": 130,
+      "collect_count": 2100,
+      "forward_count": 0,
+      "danmaku_count": 0
+    },
+    "hot_score": 8400,
+    "crawl_time": 1776702149
+  },
+  {
+    "video_id": "demo_9",
+    "platform": "xiaohongshu",
+    "search_keyword": "AI动画",
+    "author": {
+      "id": "demo_user",
+      "name": "演示作者",
+      "fans_count": 0,
+      "videos_count": 0,
+      "verified": false
+    },
+    "video_info": {
+      "title": "AI动画_小红书爆款笔记示例_9",
+      "description": "这是演示数据，实际使用请配置Cookie",
+      "duration": "",
+      "publish_time": 1718880000,
+      "cover_url": "",
+      "video_url": "https://www.xiaohongshu.com/item/demo_9",
+      "tags": [
+        "爆款",
+        "干货",
+        "教程"
+      ]
+    },
+    "stats": {
+      "view_count": 0,
+      "like_count": 5500,
+      "comment_count": 370,
+      "share_count": 140,
+      "collect_count": 2300,
+      "forward_count": 0,
+      "danmaku_count": 0
+    },
+    "hot_score": 9200,
+    "crawl_time": 1776702149
+  }
+]
