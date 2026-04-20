@@ -101,3 +101,58 @@ class BilibiliScraper(BaseScraper):
         
         self.logger.info(f"用户 {user_id} 视频获取完成: {len(contents)} 条")
         return contents
+    
+    def search_content(self, keyword: str, limit: int = 50) -> List[Dict[str, Any]]:
+        contents = []
+        page = 1
+        page_size = 20
+        
+        self.logger.info(f"搜索关键词: {keyword}")
+        
+        while len(contents) < limit:
+            api_url = "https://api.bilibili.com/x/web-interface/search/type"
+            params = {
+                "search_type": "video",
+                "keyword": keyword,
+                "page": page,
+                "pagesize": min(page_size, limit - len(contents)),
+                "order": "click"
+            }
+            
+            result = self.request_json(api_url, params=params)
+            
+            if not result or result.get("code") != 0:
+                break
+            
+            items = result.get("data", {}).get("result", [])
+            if not items:
+                break
+            
+            for item in items:
+                content = {
+                    "platform": "bilibili",
+                    "search_keyword": keyword,
+                    "id": str(item.get("aid", "")),
+                    "bvid": item.get("bvid", ""),
+                    "title": item.get("title", "").strip().replace('<em class="keyword">', '').replace('</em>', ''),
+                    "author": item.get("author", ""),
+                    "author_id": str(item.get("mid", "")),
+                    "cover": item.get("pic", ""),
+                    "url": f"https://www.bilibili.com/video/{item.get('bvid', '')}",
+                    "description": item.get("description", ""),
+                    "play_count": item.get("play", 0),
+                    "like_count": 0,
+                    "comment_count": item.get("review", 0),
+                    "duration": item.get("duration", ""),
+                    "tags": [keyword],
+                    "publish_time": item.get("pubdate", 0),
+                    "hot_score": item.get("play", 0)
+                }
+                contents.append(content)
+            
+            page += 1
+            if len(items) < page_size:
+                break
+        
+        self.logger.info(f"搜索 '{keyword}' 完成，共获取 {len(contents)} 条结果")
+        return contents[:limit]

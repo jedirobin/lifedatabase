@@ -68,3 +68,10 @@ class DouyinScraper(BaseScraper):
     def get_user_content(self, user_id: str, limit: int = 20) -> List[Dict[str, Any]]:
         self.logger.info(f"获取抖音用户: {user_id} 的作品")
         return self._demo_data(limit)
+    
+    def search_content(self, keyword: str, limit: int = 50) -> List[Dict[str, Any]]:
+        self.logger.info(f"搜索抖音关键词: {keyword}")
+        data = self._demo_data(limit)
+        for item in data:
+            item["search_keyword"] = keyword
+        return data

@@ -1,8 +1,20 @@
 import os
 from pathlib import Path
+from dotenv import load_dotenv
 
 BASE_DIR = Path(__file__).parent
 ROOT_DIR = BASE_DIR.parent
+
+load_dotenv(BASE_DIR / ".env")
+
+COOKIES = {
+    "bilibili": os.getenv("BILIBILI_COOKIE", ""),
+    "xiaohongshu": os.getenv("XIAOHONGSHU_COOKIE", ""),
+    "douyin": os.getenv("DOUYIN_COOKIE", ""),
+    "xianyu": os.getenv("XIANYU_COOKIE", ""),
+    "1688": os.getenv("1688_COOKIE", ""),
+    "pinduoduo": os.getenv("PINDUODUO_COOKIE", ""),
+}
 DATA_DIR = BASE_DIR / "data"
 MEMORY_DIR = ROOT_DIR / "memory"
 OUTPUTS_DIR = ROOT_DIR / "outputs"

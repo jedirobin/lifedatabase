@@ -77,6 +77,10 @@ class BaseScraper(ABC):
     def get_user_content(self, user_id: str, limit: int = 20) -> List[Dict[str, Any]]:
         pass
     
+    @abstractmethod
+    def search_content(self, keyword: str, limit: int = 50) -> List[Dict[str, Any]]:
+        pass
+    
     def save_data(self, filename: str = None) -> Path:
         if not filename:
             filename = f"{self.platform_name}_{time.strftime('%Y%m%d_%H%M%S')}.json"
@@ -93,19 +97,22 @@ class BaseScraper(ABC):
         syncer = ObsidianSyncer()
         syncer.sync_data(self.platform_name, self.data, data_type)
     
-    def run(self, mode: str = "hot", limit: int = 50, sync: bool = True):
-        logger.info(f"开始 {self.platform_name} 爬虫, 模式: {mode}, 数量: {limit}")
+    def run(self, mode: str = "hot", limit: int = 50, sync: bool = True, keyword: str = None):
+        self.logger.info(f"开始 {self.platform_name} 爬虫, 模式: {mode}, 数量: {limit}")
         
         if mode == "hot":
             self.data = self.get_hot_content(limit)
         elif mode == "user":
             user_id = input("请输入用户ID: ")
             self.data = self.get_user_content(user_id, limit)
+        elif mode == "search" and keyword:
+            self.data = self.search_content(keyword, limit)
         
-        logger.info(f"抓取完成, 共获取 {len(self.data)} 条数据")
+        self.logger.info(f"抓取完成, 共获取 {len(self.data)} 条数据")
         
         self.save_data()
         if sync:
-            self.sync_to_obsidian(mode)
+            sync_type = keyword if keyword else mode
+            self.sync_to_obsidian(sync_type)
         
         return self.data

@@ -31,41 +31,44 @@ def print_banner():
     print()
 
 
-def run_single_platform(platform: str, limit: int = 50):
-    logger.info(f"运行平台: {platform}, 数量: {limit}")
+def run_single_platform(platform: str, limit: int = 50, keyword: str = None):
+    mode = "search" if keyword else "hot"
+    logger.info(f"运行平台: {platform}, 模式: {mode}, 数量: {limit}")
+    if keyword:
+        logger.info(f"搜索关键词: {keyword}")
     
     if platform == "bilibili":
         from platforms.bilibili import BilibiliScraper
         from analyzers.content_analyzer import HotContentAnalyzer
         
         scraper = BilibiliScraper()
-        data = scraper.run(limit=limit, sync=True)
+        data = scraper.run(mode=mode, limit=limit, sync=True, keyword=keyword)
         
         if data:
             analyzer = HotContentAnalyzer()
-            analyzer.save_analysis("bilibili", data)
+            analyzer.save_analysis(f"bilibili_{keyword}" if keyword else "bilibili", data)
     
     elif platform == "xiaohongshu":
         from platforms.xiaohongshu import XiaohongshuScraper
         from analyzers.content_analyzer import HotContentAnalyzer
         
         scraper = XiaohongshuScraper()
-        data = scraper.run(limit=limit, sync=True)
+        data = scraper.run(mode=mode, limit=limit, sync=True, keyword=keyword)
         
         if data:
             analyzer = HotContentAnalyzer()
-            analyzer.save_analysis("xiaohongshu", data)
+            analyzer.save_analysis(f"xiaohongshu_{keyword}" if keyword else "xiaohongshu", data)
     
     elif platform == "douyin":
         from platforms.douyin import DouyinScraper
         from analyzers.content_analyzer import HotContentAnalyzer
         
         scraper = DouyinScraper()
-        data = scraper.run(limit=limit, sync=True)
+        data = scraper.run(mode=mode, limit=limit, sync=True, keyword=keyword)
         
         if data:
             analyzer = HotContentAnalyzer()
-            analyzer.save_analysis("douyin", data)
+            analyzer.save_analysis(f"douyin_{keyword}" if keyword else "douyin", data)
     
     elif platform == "ecommerce":
         from scheduler.task_scheduler import TaskScheduler
@@ -95,6 +98,11 @@ def run_scheduler():
     scheduler.start()
 
 
+def run_webui():
+    from webui import run_webui as webui
+    webui()
+
+
 def main():
     parser = argparse.ArgumentParser(description="🚀 智能多平台爬虫系统")
     parser.add_argument("-p", "--platform", 
@@ -103,10 +111,14 @@ def main():
                        help="选择要爬取的平台")
     parser.add_argument("-l", "--limit", type=int, default=50,
                        help="抓取数量")
+    parser.add_argument("-k", "--keyword", type=str,
+                       help="指定关键词/主题搜索抓取")
     parser.add_argument("-s", "--scheduler", action="store_true",
                        help="启动定时任务调度器")
     parser.add_argument("-o", "--once", action="store_true",
                        help="执行一次完整任务并退出")
+    parser.add_argument("-w", "--web", action="store_true",
+                       help="启动Web前端界面")
     
     args = parser.parse_args()
     
@@ -116,8 +128,10 @@ def main():
         run_scheduler()
     elif args.once:
         run_all(args.limit)
+    elif args.web:
+        run_webui()
     else:
-        run_single_platform(args.platform, args.limit)
+        run_single_platform(args.platform, args.limit, args.keyword)
 
 
 if __name__ == "__main__":
