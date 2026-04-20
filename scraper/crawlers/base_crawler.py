@@ -11,6 +11,7 @@ from loguru import logger
 from fake_useragent import UserAgent
 
 from config import HEADERS, TIMEOUT, RETRY_TIMES, DELAY_BETWEEN_REQUESTS, DATA_DIR
+from utils.anti_crawler import AntiCrawlerHandler
 
 
 class BaseScraper(ABC):
@@ -20,6 +21,7 @@ class BaseScraper(ABC):
         self.session = requests.Session()
         self.data = []
         self.setup_logger()
+        self.anti_crawler = AntiCrawlerHandler()
     
     def setup_logger(self):
         self.logger = logger
@@ -42,21 +44,37 @@ class BaseScraper(ABC):
     def request(self, url: str, method: str = "GET", **kwargs) -> Optional[requests.Response]:
         for attempt in range(RETRY_TIMES):
             try:
-                delay = DELAY_BETWEEN_REQUESTS + random.uniform(0, 2)
-                time.sleep(delay)
+                # 智能反爬延迟
+                self.anti_crawler.smart_delay()
                 
-                kwargs.setdefault("headers", self.get_headers())
-                kwargs.setdefault("timeout", TIMEOUT)
+                headers = self.get_headers()
+                if "headers" in kwargs:
+                    headers.update(kwargs["headers"])
+                    del kwargs["headers"]
                 
-                response = self.session.request(method, url, **kwargs)
+                response = self.session.request(method, url, headers=headers, timeout=TIMEOUT, **kwargs)
+                
+                # 检测412并处理
+                if response.status_code == 412:
+                    self.anti_crawler.handle_412_precondition()
+                    if attempt < RETRY_TIMES - 1:
+                        continue
+                
                 response.raise_for_status()
                 return response
                 
+            except requests.exceptions.HTTPError as e:
+                if e.response.status_code == 412:
+                    self.anti_crawler.handle_412_precondition()
+                    if attempt < RETRY_TIMES - 1:
+                        continue
+                logger.warning(f"HTTP请求失败 (尝试 {attempt + 1}/{RETRY_TIMES}): {url}, 错误: {e}")
             except Exception as e:
                 logger.warning(f"请求失败 (尝试 {attempt + 1}/{RETRY_TIMES}): {url}, 错误: {e}")
-                if attempt == RETRY_TIMES - 1:
-                    logger.error(f"请求最终失败: {url}")
-                    return None
+                
+            if attempt == RETRY_TIMES - 1:
+                logger.error(f"请求最终失败: {url}")
+                return None
     
     def request_json(self, url: str, **kwargs) -> Optional[Dict[str, Any]]:
         response = self.request(url, **kwargs)
@@ -93,7 +111,7 @@ class BaseScraper(ABC):
         return normalized
     
     def _normalize_single(self, item: Dict) -> Dict:
-        return {
+        normalized = {
             "video_id": str(item.get("id", item.get("bvid", ""))),
             "platform": item.get("platform", self.platform_name),
             "search_keyword": item.get("search_keyword", ""),
@@ -125,6 +143,14 @@ class BaseScraper(ABC):
             "hot_score": item.get("hot_score", 0),
             "crawl_time": int(time.time())
         }
+        
+        # 保留抓取到的评论和弹幕！
+        if "comments" in item:
+            normalized["comments"] = item["comments"]
+        if "danmaku" in item:
+            normalized["danmaku"] = item["danmaku"]
+        
+        return normalized
     
     def save_data(self, filename: str = None) -> Path:
         if not filename:

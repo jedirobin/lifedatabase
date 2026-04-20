@@ -109,7 +109,16 @@ tags: ["数据分析", "爆款分析", "{platform}"]
         return report_content
     
     def generate_product_report(self, platform: str, data: List[Dict[str, Any]]) -> str:
-        df = pd.DataFrame(data)
+        # 选品也需要扁平处理，兼容新旧格式
+        flat_data = []
+        for item in data:
+            flat = {}
+            flat["title"] = item.get("product_info", {}).get("title", "") or item.get("title", "")
+            flat["price"] = item.get("product_info", {}).get("price", 0) or item.get("price", 0)
+            flat["profit"] = item.get("profit", 0)
+            flat_data.append(flat)
+        
+        df = pd.DataFrame(flat_data)
         
         if df.empty:
             high_profit = pd.DataFrame()
