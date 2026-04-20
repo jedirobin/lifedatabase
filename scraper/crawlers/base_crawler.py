@@ -81,15 +81,60 @@ class BaseScraper(ABC):
     def search_content(self, keyword: str, limit: int = 50) -> List[Dict[str, Any]]:
         pass
     
+    def normalize_data(self, raw_data: List[Dict]) -> List[Dict]:
+        normalized = []
+        for item in raw_data:
+            item = self._normalize_single(item)
+            normalized.append(item)
+        return normalized
+    
+    def _normalize_single(self, item: Dict) -> Dict:
+        return {
+            "video_id": str(item.get("id", item.get("bvid", ""))),
+            "platform": item.get("platform", self.platform_name),
+            "search_keyword": item.get("search_keyword", ""),
+            "author": {
+                "id": str(item.get("author_id", "")),
+                "name": item.get("author", ""),
+                "fans_count": item.get("fans_count", 0),
+                "videos_count": item.get("videos_count", 0),
+                "verified": item.get("verified", False)
+            },
+            "video_info": {
+                "title": item.get("title", "").strip(),
+                "description": item.get("description", ""),
+                "duration": item.get("duration", ""),
+                "publish_time": item.get("publish_time", 0),
+                "cover_url": item.get("cover", item.get("cover_url", "")),
+                "video_url": item.get("url", item.get("video_url", "")),
+                "tags": item.get("tags", [])
+            },
+            "stats": {
+                "view_count": item.get("view_count", item.get("play_count", 0)),
+                "like_count": item.get("like_count", 0),
+                "comment_count": item.get("comment_count", 0),
+                "share_count": item.get("share_count", 0),
+                "collect_count": item.get("collect_count", 0),
+                "forward_count": item.get("forward_count", 0),
+                "danmaku_count": item.get("danmaku_count", 0)
+            },
+            "hot_score": item.get("hot_score", 0),
+            "crawl_time": int(time.time())
+        }
+    
     def save_data(self, filename: str = None) -> Path:
         if not filename:
-            filename = f"{self.platform_name}_{time.strftime('%Y%m%d_%H%M%S')}.json"
+            timestamp = time.strftime("%Y%m%d_%H%M%S")
+            filename = f"{self.platform_name}_{timestamp}.json"
         
         filepath = DATA_DIR / filename
-        with open(filepath, "w", encoding="utf-8") as f:
-            json.dump(self.data, f, ensure_ascii=False, indent=2)
         
-        logger.info(f"数据已保存: {filepath}")
+        normalized_data = self.normalize_data(self.data)
+        
+        with open(filepath, "w", encoding="utf-8") as f:
+            json.dump(normalized_data, f, ensure_ascii=False, indent=2)
+        
+        self.logger.info(f"数据已保存: {filepath}")
         return filepath
     
     def sync_to_obsidian(self, data_type: str = "hot"):
