@@ -16,60 +16,96 @@ from loguru import logger
 from config import DATA_DIR, MEMORY_DIR
 
 
-def run_crawler(platform, mode, limit, keyword):
-    results = []
+def run_crawler(zimeiti_platforms, xiaomaibu_platforms, mode, limit, keyword, progress=gr.Progress()):
+    all_results = []
+    status_msgs = []
     keyword = keyword.strip() if keyword else None
     
-    if platform == "bilibili":
-        from platforms.bilibili import BilibiliScraper
-        from analyzers.content_analyzer import HotContentAnalyzer
-        
-        scraper = BilibiliScraper()
-        data = scraper.run(mode=mode, limit=limit, sync=True, keyword=keyword)
-        
-        if data:
-            analyzer = HotContentAnalyzer()
-            analyzer.save_analysis(f"bilibili_{keyword}" if keyword else "bilibili", data)
-            results = data
+    zimeiti_map = {
+        "B站": "bilibili",
+        "抖音": "douyin",
+        "小红书": "xiaohongshu"
+    }
     
-    elif platform == "xiaohongshu":
-        from platforms.xiaohongshu import XiaohongshuScraper
-        from analyzers.content_analyzer import HotContentAnalyzer
-        
-        scraper = XiaohongshuScraper()
-        data = scraper.run(mode=mode, limit=limit, sync=True, keyword=keyword)
-        
-        if data:
-            analyzer = HotContentAnalyzer()
-            analyzer.save_analysis(f"xiaohongshu_{keyword}" if keyword else "xiaohongshu", data)
-            results = data
+    xiaomaibu_map = {
+        "闲鱼": "xianyu",
+        "1688": "1688",
+        "拼多多": "pinduoduo"
+    }
     
-    elif platform == "douyin":
-        from platforms.douyin import DouyinScraper
-        from analyzers.content_analyzer import HotContentAnalyzer
-        
-        scraper = DouyinScraper()
-        data = scraper.run(mode=mode, limit=limit, sync=True, keyword=keyword)
-        
-        if data:
-            analyzer = HotContentAnalyzer()
-            analyzer.save_analysis(f"douyin_{keyword}" if keyword else "douyin", data)
-            results = data
+    selected_platforms = []
+    for p in zimeiti_platforms:
+        if p in zimeiti_map:
+            selected_platforms.append(zimeiti_map[p])
+    for p in xiaomaibu_platforms:
+        if p in xiaomaibu_map:
+            selected_platforms.append(xiaomaibu_map[p])
     
-    elif platform == "ecommerce":
-        from scheduler.task_scheduler import TaskScheduler
-        scheduler = TaskScheduler()
-        scheduler.task_ecommerce_selection()
-        
-        return pd.DataFrame(), "✅ 电商选品分析已完成，查看 memory/insights/"
+    if not selected_platforms:
+        return pd.DataFrame(), "❌ 请至少选择一个平台！"
     
-    if results:
-        df = pd.DataFrame(results)
-        display_cols = ["title", "author", "play_count", "like_count", "comment_count"]
+    progress(0, desc="开始抓取...")
+    total = len(selected_platforms)
+    
+    for idx, platform in enumerate(selected_platforms):
+        progress((idx) / total, desc=f"正在抓取: {platform}")
+        
+        if platform == "bilibili":
+            from platforms.bilibili import BilibiliScraper
+            from analyzers.content_analyzer import HotContentAnalyzer
+            
+            scraper = BilibiliScraper()
+            data = scraper.run(mode=mode, limit=limit, sync=True, keyword=keyword)
+            
+            if data:
+                analyzer = HotContentAnalyzer()
+                analyzer.save_analysis(f"bilibili_{keyword}" if keyword else "bilibili", data)
+                all_results.extend(data)
+                status_msgs.append(f"✅ B站: {len(data)} 条")
+        
+        elif platform == "xiaohongshu":
+            from platforms.xiaohongshu import XiaohongshuScraper
+            from analyzers.content_analyzer import HotContentAnalyzer
+            
+            scraper = XiaohongshuScraper()
+            data = scraper.run(mode=mode, limit=limit, sync=True, keyword=keyword)
+            
+            if data:
+                analyzer = HotContentAnalyzer()
+                analyzer.save_analysis(f"xiaohongshu_{keyword}" if keyword else "xiaohongshu", data)
+                all_results.extend(data)
+                status_msgs.append(f"✅ 小红书: {len(data)} 条")
+        
+        elif platform == "douyin":
+            from platforms.douyin import DouyinScraper
+            from analyzers.content_analyzer import HotContentAnalyzer
+            
+            scraper = DouyinScraper()
+            data = scraper.run(mode=mode, limit=limit, sync=True, keyword=keyword)
+            
+            if data:
+                analyzer = HotContentAnalyzer()
+                analyzer.save_analysis(f"douyin_{keyword}" if keyword else "douyin", data)
+                all_results.extend(data)
+                status_msgs.append(f"✅ 抖音: {len(data)} 条")
+        
+        elif platform in ["xianyu", "1688", "pinduoduo"]:
+            from scheduler.task_scheduler import TaskScheduler
+            scheduler = TaskScheduler()
+            scheduler.task_ecommerce_selection()
+            status_msgs.append(f"✅ {platform}: 电商选品分析完成")
+    
+    progress(1.0, desc="完成！")
+    
+    if all_results:
+        df = pd.DataFrame(all_results)
+        display_cols = ["platform", "title", "author", "play_count", "like_count", "comment_count"]
         display_cols = [c for c in display_cols if c in df.columns]
-        return df[display_cols], f"✅ 完成！已抓取 {len(results)} 条数据\n已自动同步到 Obsidian 知识库"
+        status_text = "\n".join(status_msgs) + f"\n\n📊 总计: {len(all_results)} 条数据\n📁 已自动同步到 Obsidian 知识库"
+        return df[display_cols], status_text
     else:
-        return pd.DataFrame(), "⚠️ 未获取到数据（可能需要配置Cookie）"
+        status_text = "\n".join(status_msgs) if status_msgs else "⚠️ 未获取到数据（检查Cookie配置）"
+        return pd.DataFrame(), status_text
 
 
 def get_history_files():
@@ -90,7 +126,7 @@ def read_file(filepath):
 
 
 def create_ui():
-    with gr.Blocks(title="GrabLab 爬虫控制台", theme=gr.themes.Soft()) as demo:
+    with gr.Blocks(title="GrabLab 爬虫控制台") as demo:
         gr.Markdown("""
         # 🚀 GrabLab 智能多平台爬虫控制台
         
@@ -100,11 +136,24 @@ def create_ui():
         with gr.Tab("🎯 爬虫控制台"):
             with gr.Row():
                 with gr.Column(scale=1):
-                    platform = gr.Dropdown(
-                        label="选择平台",
-                        choices=["bilibili", "xiaohongshu", "douyin", "ecommerce"],
-                        value="bilibili"
+                    gr.Markdown("### 📱 自媒体平台")
+                    zimeiti_platforms = gr.CheckboxGroup(
+                        label="选择平台（可多选）",
+                        choices=["B站", "抖音", "小红书"],
+                        value=["B站"],
+                        interactive=True
                     )
+                    
+                    gr.Markdown("---")
+                    gr.Markdown("### 🏪 小卖部平台")
+                    xiaomaibu_platforms = gr.CheckboxGroup(
+                        label="选择平台（可多选）",
+                        choices=["闲鱼", "1688", "拼多多"],
+                        value=[],
+                        interactive=True
+                    )
+                    
+                    gr.Markdown("---")
                     mode = gr.Dropdown(
                         label="抓取模式",
                         choices=["hot", "search"],
@@ -116,23 +165,22 @@ def create_ui():
                         visible=True
                     )
                     limit = gr.Slider(
-                        label="抓取数量",
+                        label="单平台抓取数量",
                         minimum=10,
                         maximum=200,
                         value=50,
                         step=10
                     )
-                    run_btn = gr.Button("🚀 开始抓取", variant="primary")
+                    run_btn = gr.Button("🚀 开始抓取", variant="primary", size="lg")
                 
                 with gr.Column(scale=2):
                     status = gr.Textbox(
                         label="运行状态",
-                        lines=3,
+                        lines=5,
                         interactive=False
                     )
                     output_df = gr.Dataframe(
                         label="抓取结果预览",
-                        height=400,
                         wrap=True
                     )
         
@@ -179,7 +227,7 @@ def create_ui():
         
         run_btn.click(
             fn=run_crawler,
-            inputs=[platform, mode, limit, keyword],
+            inputs=[zimeiti_platforms, xiaomaibu_platforms, mode, limit, keyword],
             outputs=[output_df, status]
         )
         
@@ -208,8 +256,7 @@ def run_webui():
     demo.launch(
         server_name="0.0.0.0",
         server_port=7860,
-        inbrowser=True,
-        show_error=True
+        inbrowser=True
     )
 
 
