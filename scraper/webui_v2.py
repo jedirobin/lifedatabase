@@ -15,6 +15,38 @@ from loguru import logger
 from config import DATA_DIR, MEMORY_DIR
 
 
+def data_to_document(data_list):
+    if not data_list:
+        return "暂无数据"
+    
+    doc = []
+    doc.append(f"# 抓取结果汇总")
+    doc.append(f"\n📊 总计: **{len(data_list)}** 条数据\n")
+    
+    for idx, item in enumerate(data_list[:50], 1):
+        platform = item.get('platform', '').upper()
+        title = item.get('video_info', {}).get('title', '') or item.get('title', '')
+        author = item.get('author', {}).get('name', '') or item.get('author', '')
+        views = item.get('stats', {}).get('view_count', 0) or item.get('play_count', 0)
+        likes = item.get('stats', {}).get('like_count', 0) or item.get('like_count', 0)
+        comments = item.get('stats', {}).get('comment_count', 0) or item.get('comment_count', 0)
+        url = item.get('video_info', {}).get('video_url', '') or item.get('url', '')
+        
+        doc.append(f"\n---\n")
+        doc.append(f"### {idx}. 【{platform}】{title}\n")
+        doc.append(f"- 👤 作者: **{author}**\n")
+        doc.append(f"- 👁️ 播放: **{views:,}**\n")
+        doc.append(f"- ❤️ 点赞: **{likes:,}**\n")
+        doc.append(f"- 💬 评论: **{comments:,}**\n")
+        if url:
+            doc.append(f"- 🔗 链接: [{url}]({url})\n")
+    
+    doc.append(f"\n---\n")
+    doc.append(f"\n💡 完整数据已保存到 JSON 文件和 Obsidian 知识库")
+    
+    return "\n".join(doc)
+
+
 def run_crawler(zimeiti_platforms, xiaomaibu_platforms, mode, limit, keyword, progress=gr.Progress()):
     all_results = []
     status_msgs = []
@@ -41,7 +73,7 @@ def run_crawler(zimeiti_platforms, xiaomaibu_platforms, mode, limit, keyword, pr
             selected_platforms.append(xiaomaibu_map[p])
     
     if not selected_platforms:
-        return pd.DataFrame(), "❌ 请至少选择一个平台！"
+        return pd.DataFrame(), "❌ 请至少选择一个平台！", ""
     
     progress(0, desc="开始抓取...")
     total = len(selected_platforms)
@@ -49,50 +81,66 @@ def run_crawler(zimeiti_platforms, xiaomaibu_platforms, mode, limit, keyword, pr
     for idx, platform in enumerate(selected_platforms):
         progress((idx) / total, desc=f"正在抓取: {platform}")
         
-        if platform == "bilibili":
-            from crawlers.bilibili_crawler import BilibiliScraper
+        try:
+            if platform == "bilibili":
+                from crawlers.bilibili_crawler import BilibiliScraper
+                
+                scraper = BilibiliScraper()
+                data = scraper.run(mode=mode, limit=limit, sync=True, keyword=keyword)
+                
+                if data:
+                    all_results.extend(data)
+                    status_msgs.append(f"✅ B站: {len(data)} 条")
             
-            scraper = BilibiliScraper()
-            data = scraper.run(mode=mode, limit=limit, sync=True, keyword=keyword)
+            elif platform == "xiaohongshu":
+                from crawlers.xiaohongshu_crawler import XiaohongshuScraper
+                
+                scraper = XiaohongshuScraper()
+                data = scraper.run(mode=mode, limit=limit, sync=True, keyword=keyword)
+                
+                if data:
+                    all_results.extend(data)
+                    status_msgs.append(f"✅ 小红书: {len(data)} 条")
             
-            if data:
-                all_results.extend(data)
-                status_msgs.append(f"✅ B站: {len(data)} 条")
+            elif platform == "douyin":
+                from crawlers.douyin_crawler import DouyinScraper
+                
+                scraper = DouyinScraper()
+                data = scraper.run(mode=mode, limit=limit, sync=True, keyword=keyword)
+                
+                if data:
+                    all_results.extend(data)
+                    status_msgs.append(f"✅ 抖音: {len(data)} 条")
+            
+            elif platform in ["xianyu", "1688", "pinduoduo"]:
+                status_msgs.append(f"✅ {platform}: 电商平台开发中")
         
-        elif platform == "xiaohongshu":
-            from crawlers.xiaohongshu_crawler import XiaohongshuScraper
-            
-            scraper = XiaohongshuScraper()
-            data = scraper.run(mode=mode, limit=limit, sync=True, keyword=keyword)
-            
-            if data:
-                all_results.extend(data)
-                status_msgs.append(f"✅ 小红书: {len(data)} 条")
-        
-        elif platform == "douyin":
-            from crawlers.douyin_crawler import DouyinScraper
-            
-            scraper = DouyinScraper()
-            data = scraper.run(mode=mode, limit=limit, sync=True, keyword=keyword)
-            
-            if data:
-                all_results.extend(data)
-                status_msgs.append(f"✅ 抖音: {len(data)} 条")
-        
-        elif platform in ["xianyu", "1688", "pinduoduo"]:
-            status_msgs.append(f"✅ {platform}: 电商平台开发中")
+        except Exception as e:
+            status_msgs.append(f"❌ {platform}: 出错 - {str(e)[:50]}")
     
     progress(1.0, desc="完成！")
     
-    if all_results:
-        df = pd.DataFrame(all_results)
-        display_cols = ["platform", "title", "author", "play_count", "like_count", "comment_count"]
-        display_cols = [c for c in display_cols if c in df.columns]
+    document = data_to_document(all_results)
+    
+    display_data = []
+    for item in all_results:
+        row = {
+            "平台": item.get('platform', '').upper(),
+            "标题": item.get('video_info', {}).get('title', '') or item.get('title', ''),
+            "作者": item.get('author', {}).get('name', '') or item.get('author', ''),
+            "播放量": item.get('stats', {}).get('view_count', 0) or item.get('play_count', 0),
+            "点赞数": item.get('stats', {}).get('like_count', 0) or item.get('like_count', 0),
+            "评论数": item.get('stats', {}).get('comment_count', 0) or item.get('comment_count', 0)
+        }
+        display_data.append(row)
+    
+    if display_data:
+        df = pd.DataFrame(display_data)
         status_text = "\n".join(status_msgs) + f"\n\n📊 总计: {len(all_results)} 条数据\n📁 JSON已保存到 data/ 目录\n📁 已自动同步到 Obsidian 知识库"
-        return df[display_cols], status_text
+        return df, status_text, document
     else:
         status_text = "\n".join(status_msgs) if status_msgs else "⚠️ 未获取到数据（检查Cookie配置）"
-        return pd.DataFrame(), status_text
+        return pd.DataFrame(), status_text, ""
 
 
 def create_ui():
@@ -158,6 +206,10 @@ def create_ui():
                         wrap=True
                     )
         
+        with gr.Tab("📄 文档预览"):
+            gr.Markdown("### 整理好的抓取结果")
+            document_view = gr.Markdown(label="文档内容")
+        
         with gr.Tab("⚙️ 配置说明"):
             gr.Markdown("""
             ## 🔑 Cookie 配置
@@ -199,7 +251,7 @@ def create_ui():
         run_btn.click(
             fn=run_crawler,
             inputs=[zimeiti_platforms, xiaomaibu_platforms, mode, limit, keyword],
-            outputs=[output_df, status]
+            outputs=[output_df, status, document_view]
         )
     
     return demo
