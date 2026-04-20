@@ -138,7 +138,10 @@ class BaseScraper(ABC):
         return filepath
     
     def sync_to_obsidian(self, data_type: str = "hot"):
-        from obsidian_sync import ObsidianSyncer
+        import sys
+        from pathlib import Path
+        sys.path.insert(0, str(Path(__file__).parent.parent))
+        from storages.obsidian_writer import ObsidianSyncer
         syncer = ObsidianSyncer()
         syncer.sync_data(self.platform_name, self.data, data_type)
     

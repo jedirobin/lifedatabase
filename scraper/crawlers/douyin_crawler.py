@@ -1,6 +1,10 @@
 from typing import List, Dict, Any
 
-from base_scraper import BaseScraper
+import sys
+from pathlib import Path
+sys.path.insert(0, str(Path(__file__).parent.parent))
+
+from crawlers.base_crawler import BaseScraper
 
 
 class DouyinScraper(BaseScraper):

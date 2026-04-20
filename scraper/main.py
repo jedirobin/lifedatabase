@@ -38,7 +38,7 @@ def run_single_platform(platform: str, limit: int = 50, keyword: str = None):
         logger.info(f"搜索关键词: {keyword}")
     
     if platform == "bilibili":
-        from platforms.bilibili import BilibiliScraper
+        from crawlers.bilibili_crawler import BilibiliScraper
         from analyzers.content_analyzer import HotContentAnalyzer
         
         scraper = BilibiliScraper()
@@ -49,7 +49,7 @@ def run_single_platform(platform: str, limit: int = 50, keyword: str = None):
             analyzer.save_analysis(f"bilibili_{keyword}" if keyword else "bilibili", data)
     
     elif platform == "xiaohongshu":
-        from platforms.xiaohongshu import XiaohongshuScraper
+        from crawlers.xiaohongshu_crawler import XiaohongshuScraper
         from analyzers.content_analyzer import HotContentAnalyzer
         
         scraper = XiaohongshuScraper()
@@ -60,7 +60,7 @@ def run_single_platform(platform: str, limit: int = 50, keyword: str = None):
             analyzer.save_analysis(f"xiaohongshu_{keyword}" if keyword else "xiaohongshu", data)
     
     elif platform == "douyin":
-        from platforms.douyin import DouyinScraper
+        from crawlers.douyin_crawler import DouyinScraper
         from analyzers.content_analyzer import HotContentAnalyzer
         
         scraper = DouyinScraper()

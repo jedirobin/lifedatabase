@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-爬虫Web操作界面
+爬虫Web操作界面 V2 - 全新架构版
 """
 import sys
 from pathlib import Path
@@ -10,7 +10,6 @@ sys.path.insert(0, str(Path(__file__).parent))
 
 import gradio as gr
 import pandas as pd
-import json
 from loguru import logger
 
 from config import DATA_DIR, MEMORY_DIR
@@ -52,48 +51,36 @@ def run_crawler(zimeiti_platforms, xiaomaibu_platforms, mode, limit, keyword, pr
         
         if platform == "bilibili":
             from crawlers.bilibili_crawler import BilibiliScraper
-            from analyzers.content_analyzer import HotContentAnalyzer
             
             scraper = BilibiliScraper()
             data = scraper.run(mode=mode, limit=limit, sync=True, keyword=keyword)
             
             if data:
-                analyzer = HotContentAnalyzer()
-                analyzer.save_analysis(f"bilibili_{keyword}" if keyword else "bilibili", data)
                 all_results.extend(data)
                 status_msgs.append(f"✅ B站: {len(data)} 条")
         
         elif platform == "xiaohongshu":
             from crawlers.xiaohongshu_crawler import XiaohongshuScraper
-            from analyzers.content_analyzer import HotContentAnalyzer
             
             scraper = XiaohongshuScraper()
             data = scraper.run(mode=mode, limit=limit, sync=True, keyword=keyword)
             
             if data:
-                analyzer = HotContentAnalyzer()
-                analyzer.save_analysis(f"xiaohongshu_{keyword}" if keyword else "xiaohongshu", data)
                 all_results.extend(data)
                 status_msgs.append(f"✅ 小红书: {len(data)} 条")
         
         elif platform == "douyin":
             from crawlers.douyin_crawler import DouyinScraper
-            from analyzers.content_analyzer import HotContentAnalyzer
             
             scraper = DouyinScraper()
             data = scraper.run(mode=mode, limit=limit, sync=True, keyword=keyword)
             
             if data:
-                analyzer = HotContentAnalyzer()
-                analyzer.save_analysis(f"douyin_{keyword}" if keyword else "douyin", data)
                 all_results.extend(data)
                 status_msgs.append(f"✅ 抖音: {len(data)} 条")
         
         elif platform in ["xianyu", "1688", "pinduoduo"]:
-            from scheduler.task_scheduler import TaskScheduler
-            scheduler = TaskScheduler()
-            scheduler.task_ecommerce_selection()
-            status_msgs.append(f"✅ {platform}: 电商选品分析完成")
+            status_msgs.append(f"✅ {platform}: 电商平台开发中")
     
     progress(1.0, desc="完成！")
     
@@ -101,41 +88,28 @@ def run_crawler(zimeiti_platforms, xiaomaibu_platforms, mode, limit, keyword, pr
         df = pd.DataFrame(all_results)
         display_cols = ["platform", "title", "author", "play_count", "like_count", "comment_count"]
         display_cols = [c for c in display_cols if c in df.columns]
-        status_text = "\n".join(status_msgs) + f"\n\n📊 总计: {len(all_results)} 条数据\n📁 已自动同步到 Obsidian 知识库"
+        status_text = "\n".join(status_msgs) + f"\n\n📊 总计: {len(all_results)} 条数据\n📁 JSON已保存到 data/ 目录\n📁 已自动同步到 Obsidian 知识库"
         return df[display_cols], status_text
     else:
         status_text = "\n".join(status_msgs) if status_msgs else "⚠️ 未获取到数据（检查Cookie配置）"
         return pd.DataFrame(), status_text
 
 
-def get_history_files():
-    insights = []
-    insights_dir = MEMORY_DIR / "insights"
-    if insights_dir.exists():
-        for f in insights_dir.glob("*SKILL*.md"):
-            insights.append((f.name, str(f)))
-    return insights
-
-
-def read_file(filepath):
-    try:
-        with open(filepath, "r", encoding="utf-8") as f:
-            return f.read()
-    except:
-        return "文件读取失败"
-
-
 def create_ui():
-    with gr.Blocks(title="GrabLab 爬虫控制台") as demo:
-        gr.Markdown("""
-        # 🚀 GrabLab 智能多平台爬虫控制台
-        
-        一站式社媒爆款分析 + 电商选品工具
+    with gr.Blocks(title="GrabLab V2 - 专业爬虫控制台") as demo:
+        gr.HTML("""
+        <h1 style='text-align: center; color: #165DFF; margin-bottom: 20px;'>
+            🚀 GrabLab 专业爬虫控制台 V2
+        </h1>
+        <p style='text-align: center; color: #666;'>
+            工程级架构 · 标准化数据 · Obsidian知识库集成
+        </p>
         """)
         
         with gr.Tab("🎯 爬虫控制台"):
             with gr.Row():
                 with gr.Column(scale=1):
+                    
                     gr.Markdown("### 📱 自媒体平台")
                     zimeiti_platforms = gr.CheckboxGroup(
                         label="选择平台（可多选）",
@@ -160,7 +134,7 @@ def create_ui():
                         value="hot"
                     )
                     keyword = gr.Textbox(
-                        label="搜索关键词（search模式）",
+                        label="🔍 搜索关键词（search模式）",
                         placeholder="输入要搜索的主题，如：AI 创业",
                         visible=True
                     )
@@ -176,7 +150,7 @@ def create_ui():
                 with gr.Column(scale=2):
                     status = gr.Textbox(
                         label="运行状态",
-                        lines=5,
+                        lines=6,
                         interactive=False
                     )
                     output_df = gr.Dataframe(
@@ -184,22 +158,11 @@ def create_ui():
                         wrap=True
                     )
         
-        with gr.Tab("📊 分析结果"):
-            with gr.Row():
-                file_list = gr.Dropdown(
-                    label="已生成的SKILL文件",
-                    choices=[f[0] for f in get_history_files()],
-                    value=get_history_files()[0][0] if get_history_files() else None
-                )
-                refresh_btn = gr.Button("🔄 刷新列表")
-            
-            file_content = gr.Markdown(label="SKILL内容预览")
-        
         with gr.Tab("⚙️ 配置说明"):
             gr.Markdown("""
             ## 🔑 Cookie 配置
             
-            1. 复制 `.env.example` 为 `.env`
+            1. 打开 `.env` 文件
             2. 按照 `Cookie配置指南.md` 获取对应平台Cookie
             3. 填入后重启程序
             
@@ -213,7 +176,7 @@ def create_ui():
             python main.py -p bilibili -k "AI创业" -l 30
             
             # 启动Web界面
-            python main.py -w
+            python webui_v2.py
             ```
             
             ## 📁 数据位置
@@ -223,6 +186,14 @@ def create_ui():
             | `sources/[平台]/` | 原始JSON数据 |
             | `memory/insights/` | 爆款创作SKILL |
             | `outputs/reports/` | 详细分析报告 |
+            
+            ## 🏗️ 系统架构
+            
+            - **crawlers/** - 爬虫模块
+            - **parsers/** - 数据解析
+            - **analyzers/** - 智能分析
+            - **storages/** - 存储模块
+            - **utils/** - 反爬+登录管理
             """)
         
         run_btn.click(
@@ -230,32 +201,18 @@ def create_ui():
             inputs=[zimeiti_platforms, xiaomaibu_platforms, mode, limit, keyword],
             outputs=[output_df, status]
         )
-        
-        def refresh_files():
-            files = get_history_files()
-            return gr.update(
-                choices=[f[0] for f in files],
-                value=files[0][0] if files else None
-            )
-        
-        refresh_btn.click(fn=refresh_files, outputs=[file_list])
-        
-        def on_file_select(filename):
-            files = get_history_files()
-            filepath = next((f[1] for f in files if f[0] == filename), "")
-            return read_file(filepath)
-        
-        file_list.change(fn=on_file_select, inputs=[file_list], outputs=[file_content])
     
     return demo
 
 
 def run_webui():
-    logger.info("启动 WebUI：http://localhost:7860")
+    logger.info("=" * 60)
+    logger.info("  启动 WebUI V2：http://localhost:7861")
+    logger.info("=" * 60)
     demo = create_ui()
     demo.launch(
         server_name="0.0.0.0",
-        server_port=7860,
+        server_port=7861,
         inbrowser=True
     )
 
