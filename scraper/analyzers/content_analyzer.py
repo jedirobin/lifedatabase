@@ -14,7 +14,9 @@ from config import ANALYSIS_CONFIG, MEMORY_DIR
 
 class HotContentAnalyzer:
     def __init__(self):
-        jieba.enable_parallel(4)
+        import sys
+        if sys.platform != "win32":
+            jieba.enable_parallel(4)
         self.stop_words = self._load_stop_words()
         self.result_dir = MEMORY_DIR / "insights"
         self.result_dir.mkdir(exist_ok=True)

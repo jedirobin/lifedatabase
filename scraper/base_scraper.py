@@ -22,7 +22,8 @@ class BaseScraper(ABC):
         self.setup_logger()
     
     def setup_logger(self):
-        logger.add(
+        self.logger = logger
+        self.logger.add(
             DATA_DIR / f"{self.platform_name}_scraper.log",
             rotation="10 MB",
             retention="7 days",

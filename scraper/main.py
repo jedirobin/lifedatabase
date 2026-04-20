@@ -13,8 +13,11 @@ import argparse
 
 
 def print_banner():
+    import sys
+    sys.stdout.reconfigure(encoding='utf-8')
+    
     print("=" * 60)
-    print("""
+    print(r"""
    _____           _   _____ _       _           
   / ____|         | | / ____| |     | |          
  | |  __ _ __ __ _| || |    | |_   _| |__   ___  
@@ -22,7 +25,7 @@ def print_banner():
  | |__| | | | (_| | || |____| | |_| | |_) |  __/ 
   \_____|_|  \__,_|_| \_____|_|\__,_|_.__/ \___| 
                                                  
-  🚀 智能多平台爬虫 + 知识库系统 v1.0
+  GrabLab - 智能多平台爬虫 + 知识库系统 v1.0
     """)
     print("=" * 60)
     print()
