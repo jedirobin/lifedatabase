@@ -70,7 +70,7 @@ class BilibiliScraper(BaseScraper):
         
         try:
             api_url = f"https://comment.bilibili.com/{cid}.xml"
-            response = self.request_get(api_url)
+            response = self.request(api_url)
             
             if not response:
                 return danmaku_list

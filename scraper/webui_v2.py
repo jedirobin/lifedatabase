@@ -143,7 +143,10 @@ def run_crawler(zimeiti_platforms, xiaomaibu_platforms, mode, limit, keyword, fe
                 status_msgs.append(f"✅ {platform}: 电商平台开发中")
         
         except Exception as e:
-            status_msgs.append(f"❌ {platform}: 出错 - {str(e)[:50]}")
+            import traceback
+            error_detail = traceback.format_exc()
+            status_msgs.append(f"❌ {platform}: 出错 - {str(e)}")
+            status_msgs.append(f"   详情: {error_detail[:200]}")
     
     progress(1.0, desc="完成！")
     

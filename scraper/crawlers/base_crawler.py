@@ -23,12 +23,16 @@ class BaseScraper(ABC):
     
     def setup_logger(self):
         self.logger = logger
-        self.logger.add(
-            DATA_DIR / f"{self.platform_name}_scraper.log",
-            rotation="10 MB",
-            retention="7 days",
-            encoding="utf-8"
-        )
+        try:
+            DATA_DIR.mkdir(parents=True, exist_ok=True)
+            self.logger.add(
+                DATA_DIR / f"{self.platform_name}_scraper.log",
+                rotation="10 MB",
+                retention="7 days",
+                encoding="utf-8"
+            )
+        except:
+            pass
     
     def get_headers(self) -> Dict[str, str]:
         headers = HEADERS.copy()
