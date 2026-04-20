@@ -127,6 +127,7 @@ class BaseScraper(ABC):
             timestamp = time.strftime("%Y%m%d_%H%M%S")
             filename = f"{self.platform_name}_{timestamp}.json"
         
+        DATA_DIR.mkdir(parents=True, exist_ok=True)
         filepath = DATA_DIR / filename
         
         normalized_data = self.normalize_data(self.data)

@@ -19,7 +19,9 @@ DATA_DIR = BASE_DIR / "data"
 MEMORY_DIR = ROOT_DIR / "memory"
 OUTPUTS_DIR = ROOT_DIR / "outputs"
 
-DATA_DIR.mkdir(exist_ok=True)
+DATA_DIR.mkdir(parents=True, exist_ok=True)
+MEMORY_DIR.mkdir(parents=True, exist_ok=True)
+OUTPUTS_DIR.mkdir(parents=True, exist_ok=True)
 
 HEADERS = {
     "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",

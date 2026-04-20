@@ -12,6 +12,119 @@ class BilibiliScraper(BaseScraper):
     def __init__(self):
         super().__init__("bilibili")
         self.api_url = PLATOFRM_CONFIG["bilibili"]["hot_url"]
+        self.fetch_comments = True
+        self.fetch_danmaku = True
+        self.max_comments_per_video = 100
+    
+    def get_video_comments(self, aid: str, bvid: str, limit: int = 100) -> List[Dict[str, Any]]:
+        comments = []
+        page = 1
+        
+        try:
+            while len(comments) < limit:
+                api_url = "https://api.bilibili.com/x/v2/reply"
+                params = {
+                    "type": 1,
+                    "oid": aid,
+                    "pn": page,
+                    "ps": 20,
+                    "sort": 2
+                }
+                
+                result = self.request_json(api_url, params=params)
+                
+                if not result or result.get("code") != 0:
+                    break
+                
+                replies = result.get("data", {}).get("replies", [])
+                if not replies:
+                    break
+                
+                for reply in replies:
+                    comment = {
+                        "comment_id": str(reply.get("rpid", "")),
+                        "content": reply.get("content", {}).get("message", ""),
+                        "author": reply.get("member", {}).get("uname", ""),
+                        "author_id": str(reply.get("member", {}).get("mid", "")),
+                        "like_count": reply.get("like", 0),
+                        "reply_count": reply.get("rcount", 0),
+                        "publish_time": reply.get("ctime", 0),
+                        "floor": reply.get("floor", 0)
+                    }
+                    comments.append(comment)
+                    
+                    if len(comments) >= limit:
+                        break
+                
+                page += 1
+                if len(replies) < 20 or page > 5:
+                    break
+        
+        except Exception as e:
+            self.logger.debug(f"获取评论失败: {e}")
+        
+        return comments
+    
+    def get_video_danmaku(self, cid: str) -> List[Dict[str, Any]]:
+        danmaku_list = []
+        
+        try:
+            api_url = f"https://comment.bilibili.com/{cid}.xml"
+            response = self.request_get(api_url)
+            
+            if not response:
+                return danmaku_list
+            
+            import re
+            pattern = r'<d p="([^"]+)">([^<]+)</d>'
+            matches = re.findall(pattern, response.text)
+            
+            for match in matches[:500]:
+                attrs = match[0].split(',')
+                text = match[1]
+                
+                if len(attrs) >= 7:
+                    danmaku = {
+                        "time": float(attrs[0]),
+                        "type": int(attrs[1]),
+                        "font_size": int(attrs[2]),
+                        "color": attrs[3],
+                        "publish_time": int(attrs[4]),
+                        "pool": int(attrs[5]),
+                        "sender_id": attrs[6],
+                        "content": text
+                    }
+                    danmaku_list.append(danmaku)
+        
+        except Exception as e:
+            self.logger.debug(f"获取弹幕失败: {e}")
+        
+        return danmaku_list
+    
+    def get_video_detail(self, aid: str, bvid: str) -> Dict[str, Any]:
+        detail = {
+            "comments": [],
+            "danmaku": []
+        }
+        
+        try:
+            api_url = "https://api.bilibili.com/x/web-interface/view"
+            params = {"bvid": bvid}
+            result = self.request_json(api_url, params=params)
+            
+            if result and result.get("code") == 0:
+                cid = result.get("data", {}).get("cid", "")
+                
+                if self.fetch_comments:
+                    detail["comments"] = self.get_video_comments(aid, bvid, self.max_comments_per_video)
+                
+                if self.fetch_danmaku and cid:
+                    detail["danmaku"] = self.get_video_danmaku(cid)
+        
+        except Exception as e:
+            self.logger.debug(f"获取详情失败: {e}")
+        
+        return detail
     
     def get_hot_content(self, limit: int = 50) -> List[Dict[str, Any]]:
         contents = []
@@ -36,15 +149,20 @@ class BilibiliScraper(BaseScraper):
             
             for item in items:
                 stat = item.get("stat", {})
+                aid = str(item.get("aid", ""))
+                bvid = item.get("bvid", "")
+                
+                detail = self.get_video_detail(aid, bvid)
+                
                 content = {
                     "platform": "bilibili",
-                    "id": str(item.get("aid", "")),
-                    "bvid": item.get("bvid", ""),
+                    "id": aid,
+                    "bvid": bvid,
                     "title": item.get("title", "").strip(),
                     "author": item.get("owner", {}).get("name", ""),
                     "author_id": str(item.get("owner", {}).get("mid", "")),
                     "cover": item.get("pic", ""),
-                    "url": f"https://www.bilibili.com/video/{item.get('bvid', '')}",
+                    "url": f"https://www.bilibili.com/video/{bvid}",
                     "description": item.get("desc", ""),
                     "play_count": stat.get("view", 0),
                     "like_count": stat.get("like", 0),
@@ -57,7 +175,9 @@ class BilibiliScraper(BaseScraper):
                     "tags": [item.get("tname", "")],
                     "publish_time": item.get("pubdate", 0),
                     "category": item.get("tname", ""),
-                    "hot_score": stat.get("view", 0) * 0.1 + stat.get("like", 0) * 2
+                    "hot_score": stat.get("view", 0) * 0.1 + stat.get("like", 0) * 2,
+                    "comments": detail["comments"],
+                    "danmaku": detail["danmaku"]
                 }
                 contents.append(content)
             
@@ -133,16 +253,21 @@ class BilibiliScraper(BaseScraper):
                 break
             
             for item in items:
+                aid = str(item.get("aid", ""))
+                bvid = item.get("bvid", "")
+                
+                detail = self.get_video_detail(aid, bvid)
+                
                 content = {
                     "platform": "bilibili",
                     "search_keyword": keyword,
-                    "id": str(item.get("aid", "")),
-                    "bvid": item.get("bvid", ""),
+                    "id": aid,
+                    "bvid": bvid,
                     "title": item.get("title", "").strip().replace('<em class="keyword">', '').replace('</em>', ''),
                     "author": item.get("author", ""),
                     "author_id": str(item.get("mid", "")),
                     "cover": item.get("pic", ""),
-                    "url": f"https://www.bilibili.com/video/{item.get('bvid', '')}",
+                    "url": f"https://www.bilibili.com/video/{bvid}",
                     "description": item.get("description", ""),
                     "play_count": item.get("play", 0),
                     "like_count": 0,
@@ -150,7 +275,9 @@ class BilibiliScraper(BaseScraper):
                     "duration": item.get("duration", ""),
                     "tags": [keyword],
                     "publish_time": item.get("pubdate", 0),
-                    "hot_score": item.get("play", 0)
+                    "hot_score": item.get("play", 0),
+                    "comments": detail["comments"],
+                    "danmaku": detail["danmaku"]
                 }
                 contents.append(content)
             

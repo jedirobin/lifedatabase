@@ -15,39 +15,64 @@ from loguru import logger
 from config import DATA_DIR, MEMORY_DIR
 
 
-def data_to_document(data_list):
+def data_to_document(data_list, show_detail: bool = True):
     if not data_list:
         return "暂无数据"
     
     doc = []
     doc.append(f"# 抓取结果汇总")
-    doc.append(f"\n📊 总计: **{len(data_list)}** 条数据\n")
+    total_comments = sum(len(v.get('comments', [])) for v in data_list)
+    total_danmaku = sum(len(v.get('danmaku', [])) for v in data_list)
+    doc.append(f"\n📊 总计: **{len(data_list)}** 条视频")
+    doc.append(f"\n💬 抓取评论: **{total_comments}** 条")
+    doc.append(f"\n📝 抓取弹幕: **{total_danmaku}** 条\n")
     
-    for idx, item in enumerate(data_list[:50], 1):
+    for idx, item in enumerate(data_list[:20], 1):
         platform = item.get('platform', '').upper()
         title = item.get('video_info', {}).get('title', '') or item.get('title', '')
         author = item.get('author', {}).get('name', '') or item.get('author', '')
         views = item.get('stats', {}).get('view_count', 0) or item.get('play_count', 0)
         likes = item.get('stats', {}).get('like_count', 0) or item.get('like_count', 0)
-        comments = item.get('stats', {}).get('comment_count', 0) or item.get('comment_count', 0)
+        comment_count = item.get('stats', {}).get('comment_count', 0) or item.get('comment_count', 0)
         url = item.get('video_info', {}).get('video_url', '') or item.get('url', '')
+        
+        fetched_comments = item.get('comments', [])
+        fetched_danmaku = item.get('danmaku', [])
         
         doc.append(f"\n---\n")
         doc.append(f"### {idx}. 【{platform}】{title}\n")
         doc.append(f"- 👤 作者: **{author}**\n")
         doc.append(f"- 👁️ 播放: **{views:,}**\n")
         doc.append(f"- ❤️ 点赞: **{likes:,}**\n")
-        doc.append(f"- 💬 评论: **{comments:,}**\n")
+        doc.append(f"- 💬 评论总数: **{comment_count:,}** | 已抓取: **{len(fetched_comments)}** 条\n")
+        doc.append(f"- 📝 弹幕已抓取: **{len(fetched_danmaku)}** 条\n")
         if url:
             doc.append(f"- 🔗 链接: [{url}]({url})\n")
+        
+        if show_detail and fetched_comments:
+            doc.append(f"\n#### 💡 热门评论 (Top 5)\n")
+            for c_idx, comment in enumerate(fetched_comments[:5], 1):
+                content = comment.get('content', '')
+                c_author = comment.get('author', '')
+                c_likes = comment.get('like_count', 0)
+                doc.append(f"{c_idx}. **@{c_author}** (❤️ {c_likes})\n")
+                doc.append(f"   > {content}\n\n")
+        
+        if show_detail and fetched_danmaku:
+            doc.append(f"\n#### 🔥 精选弹幕 (Top 10)\n")
+            unique_danmaku = list({d.get('content', '') for d in fetched_danmaku[:50]})[:10]
+            for dm in unique_danmaku:
+                if dm.strip():
+                    doc.append(f"> 🎬 {dm}\n")
+                    doc.append(f"\n")
     
     doc.append(f"\n---\n")
-    doc.append(f"\n💡 完整数据已保存到 JSON 文件和 Obsidian 知识库")
+    doc.append(f"\n💡 完整数据（含全部评论弹幕）已保存到 JSON 文件和 Obsidian 知识库")
     
     return "\n".join(doc)
 
 
-def run_crawler(zimeiti_platforms, xiaomaibu_platforms, mode, limit, keyword, progress=gr.Progress()):
+def run_crawler(zimeiti_platforms, xiaomaibu_platforms, mode, limit, keyword, fetch_comments, fetch_danmaku, progress=gr.Progress()):
     all_results = []
     status_msgs = []
     keyword = keyword.strip() if keyword else None
@@ -86,6 +111,8 @@ def run_crawler(zimeiti_platforms, xiaomaibu_platforms, mode, limit, keyword, pr
                 from crawlers.bilibili_crawler import BilibiliScraper
                 
                 scraper = BilibiliScraper()
+                scraper.fetch_comments = fetch_comments
+                scraper.fetch_danmaku = fetch_danmaku
                 data = scraper.run(mode=mode, limit=limit, sync=True, keyword=keyword)
                 
                 if data:
@@ -190,9 +217,21 @@ def create_ui():
                         label="单平台抓取数量",
                         minimum=10,
                         maximum=200,
-                        value=50,
+                        value=20,
                         step=10
                     )
+                    
+                    gr.Markdown("---")
+                    gr.Markdown("### 🔬 深度抓取选项")
+                    fetch_comments = gr.Checkbox(
+                        label="抓取评论区（每条视频最多100条）",
+                        value=True
+                    )
+                    fetch_danmaku = gr.Checkbox(
+                        label="抓取弹幕内容（每条视频最多500条）",
+                        value=True
+                    )
+                    
                     run_btn = gr.Button("🚀 开始抓取", variant="primary", size="lg")
                 
                 with gr.Column(scale=2):
@@ -250,7 +289,7 @@ def create_ui():
         
         run_btn.click(
             fn=run_crawler,
-            inputs=[zimeiti_platforms, xiaomaibu_platforms, mode, limit, keyword],
+            inputs=[zimeiti_platforms, xiaomaibu_platforms, mode, limit, keyword, fetch_comments, fetch_danmaku],
             outputs=[output_df, status, document_view]
         )
     

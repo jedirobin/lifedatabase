@@ -125,21 +125,23 @@ tags: ["选品", "电商", "{platform}"]
     def sync_data(self, platform: str, data: List[Dict[str, Any]], data_type: str = "hot"):
         self.reports_dir.mkdir(parents=True, exist_ok=True)
         
-        if data_type in ["hot", "user"]:
-            report_content = self.generate_hot_report(platform, data)
-            filename = f"{platform}_{data_type}_分析_{datetime.now().strftime('%Y%m%d')}.md"
-        else:
+        e_commerce_platforms = ["xianyu", "1688", "pinduoduo", "taobao"]
+        
+        if platform in e_commerce_platforms:
             report_content = self.generate_product_report(platform, data)
             filename = f"{platform}_选品分析_{datetime.now().strftime('%Y%m%d')}.md"
+        else:
+            report_content = self.generate_hot_report(platform, data)
+            filename = f"{platform}_内容分析_{datetime.now().strftime('%Y%m%d')}.md"
         
         filepath = self.reports_dir / filename
         with open(filepath, "w", encoding="utf-8") as f:
             f.write(report_content)
         
-        logger.success(f"已同步到Obsidian: {filepath}")
+        logger.success(f"已生成分析报告: {filepath}")
         
         raw_dir = self.root_dir / "sources" / platform
-        raw_dir.mkdir(exist_ok=True)
+        raw_dir.mkdir(parents=True, exist_ok=True)
         
         raw_file = raw_dir / f"{platform}_raw_{int(time.time())}.json"
         with open(raw_file, "w", encoding="utf-8") as f:
