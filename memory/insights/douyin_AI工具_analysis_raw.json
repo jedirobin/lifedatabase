@@ -1,0 +1,128 @@
+{
+  "overall": {
+    "total_count": 30,
+    "hot_count": 6,
+    "hot_threshold": 1260000,
+    "avg_play": 825000,
+    "avg_like": 41250
+  },
+  "title_analysis": {
+    "total_samples": 6,
+    "keywords": [
+      {
+        "word": "普通人",
+        "weight": 1.1528
+      },
+      {
+        "word": "翻身",
+        "weight": 0.6717
+      },
+      {
+        "word": "思维",
+        "weight": 0.6373
+      },
+      {
+        "word": "商业",
+        "weight": 0.5019
+      },
+      {
+        "word": "干货",
+        "weight": 0.4866
+      },
+      {
+        "word": "好用",
+        "weight": 0.4627
+      },
+      {
+        "word": "月入",
+        "weight": 0.4565
+      },
+      {
+        "word": "文案",
+        "weight": 0.4429
+      },
+      {
+        "word": "机会",
+        "weight": 0.4363
+      },
+      {
+        "word": "付费",
+        "weight": 0.4112
+      },
+      {
+        "word": "账号",
+        "weight": 0.4042
+      },
+      {
+        "word": "认知",
+        "weight": 0.3786
+      },
+      {
+        "word": "创业",
+        "weight": 0.3037
+      },
+      {
+        "word": "知识",
+        "weight": 0.2804
+      },
+      {
+        "word": "习惯",
+        "weight": 0.273
+      },
+      {
+        "word": "工具",
+        "weight": 0.266
+      },
+      {
+        "word": "媒体",
+        "weight": 0.2611
+      }
+    ],
+    "hot_patterns": {
+      "number_prefix": {
+        "count": 0,
+        "ratio": 0.0
+      },
+      "question_format": {
+        "count": 0,
+        "ratio": 0.0
+      },
+      "how_to": {
+        "count": 1,
+        "ratio": 16.7
+      },
+      "secret_pattern": {
+        "count": 0,
+        "ratio": 0.0
+      },
+      "profit_pattern": {
+        "count": 2,
+        "ratio": 33.3
+      }
+    },
+    "analyzed_at": "2026-04-20T23:02:57.597437"
+  },
+  "best_length": {
+    "best_performing": [
+      [
+        "15-20字",
+        49500.0
+      ]
+    ],
+    "avg_length": 16
+  },
+  "publish_hours": {
+    "note": "待完善发布时间分析",
+    "recommended_hours": [
+      "07:00-09:00",
+      "12:00-14:00",
+      "18:00-22:00"
+    ]
+  },
+  "recommendations": [
+    "💰 '赚钱/收入/月入'等关键词转化率高",
+    "📝 建议标题长度：15-25字",
+    "🎯 发布时间：晚高峰18-22点效果最好",
+    "#️⃣ 每篇带3-5个精准话题标签"
+  ]
+}

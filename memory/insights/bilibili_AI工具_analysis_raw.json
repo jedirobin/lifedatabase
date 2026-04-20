@@ -1,0 +1,135 @@
+{
+  "overall": {
+    "total_count": 50,
+    "hot_count": 11,
+    "hot_threshold": 3339887,
+    "avg_play": 1731963,
+    "avg_like": 97100
+  },
+  "title_analysis": {
+    "total_samples": 11,
+    "keywords": [
+      {
+        "word": "合集",
+        "weight": 0.9515
+      },
+      {
+        "word": "游记",
+        "weight": 0.8364
+      },
+      {
+        "word": "取经",
+        "weight": 0.7537
+      },
+      {
+        "word": "版本",
+        "weight": 0.6892
+      },
+      {
+        "word": "公测",
+        "weight": 0.5587
+      },
+      {
+        "word": "异环",
+        "weight": 0.5434
+      },
+      {
+        "word": "星穹",
+        "weight": 0.5434
+      },
+      {
+        "word": "银狼",
+        "weight": 0.5434
+      },
+      {
+        "word": "崩坏",
+        "weight": 0.5229
+      },
+      {
+        "word": "口技",
+        "weight": 0.4855
+      },
+      {
+        "word": "有关",
+        "weight": 0.4267
+      },
+      {
+        "word": "铁道",
+        "weight": 0.4102
+      },
+      {
+        "word": "悲哀",
+        "weight": 0.3841
+      },
+      {
+        "word": "重返",
+        "weight": 0.3658
+      },
+      {
+        "word": "同学",
+        "weight": 0.3276
+      },
+      {
+        "word": "角色",
+        "weight": 0.3192
+      },
+      {
+        "word": "表演",
+        "weight": 0.3151
+      }
+    ],
+    "hot_patterns": {
+      "number_prefix": {
+        "count": 0,
+        "ratio": 0.0
+      },
+      "question_format": {
+        "count": 0,
+        "ratio": 0.0
+      },
+      "how_to": {
+        "count": 0,
+        "ratio": 0.0
+      },
+      "secret_pattern": {
+        "count": 0,
+        "ratio": 0.0
+      },
+      "profit_pattern": {
+        "count": 0,
+        "ratio": 0.0
+      }
+    },
+    "analyzed_at": "2026-04-20T23:02:52.763477"
+  },
+  "best_length": {
+    "best_performing": [
+      [
+        "10-15字",
+        710240.2000000001
+      ],
+      [
+        "25-30字",
+        567256.142857143
+      ],
+      [
+        "20-25字",
+        439518.475
+      ]
+    ],
+    "avg_length": 21
+  },
+  "publish_hours": {
+    "note": "待完善发布时间分析",
+    "recommended_hours": [
+      "07:00-09:00",
+      "12:00-14:00",
+      "18:00-22:00"
+    ]
+  },
+  "recommendations": [
+    "📝 建议标题长度：15-25字",
+    "🎯 发布时间：晚高峰18-22点效果最好",
+    "#️⃣ 每篇带3-5个精准话题标签"
+  ]
+}
