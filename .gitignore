@@ -23,3 +23,9 @@ SECRET.md
 *.mov
 *.avi
 *.mkv
+
+
+
+
+# Ignore Smart Environment folder
+.smart-env
