@@ -16,13 +16,50 @@ class ObsidianSyncer:
         self.reports_dir = self.root_dir / "outputs" / "reports"
         self.index_file = self.memory_dir / "index.md"
     
+    def _flatten_data(self, data: List[Dict[str, Any]]) -> List[Dict[str, Any]]:
+        flattened = []
+        for item in data:
+            flat = {}
+            flat["title"] = item.get("video_info", {}).get("title", "") or item.get("title", "")
+            flat["url"] = item.get("video_info", {}).get("video_url", "") or item.get("url", "")
+            
+            author = item.get("author", {})
+            if isinstance(author, dict):
+                flat["author"] = author.get("name", "")
+            else:
+                flat["author"] = str(author)
+            
+            stats = item.get("stats", {})
+            if isinstance(stats, dict):
+                flat["play_count"] = stats.get("view_count", 0) or item.get("play_count", 0)
+                flat["like_count"] = stats.get("like_count", 0) or item.get("like_count", 0)
+            else:
+                flat["play_count"] = item.get("play_count", 0)
+                flat["like_count"] = item.get("like_count", 0)
+            
+            flat["publish_time"] = item.get("publish_time", "")
+            flat["tags"] = item.get("video_info", {}).get("tags", []) or item.get("tags", [])
+            
+            flattened.append(flat)
+        return flattened
+    
     def generate_hot_report(self, platform: str, data: List[Dict[str, Any]]) -> str:
-        df = pd.DataFrame(data)
+        flat_data = self._flatten_data(data)
+        df = pd.DataFrame(flat_data)
         
-        total_play = df.get("play_count", pd.Series([0])).sum()
-        avg_play = df.get("play_count", pd.Series([0])).mean()
-        
-        top10 = df.nlargest(10, "play_count" if "play_count" in df.columns else 0)
+        if df.empty:
+            total_play = 0
+            avg_play = 0
+            top10 = pd.DataFrame()
+        else:
+            if "play_count" in df.columns:
+                total_play = df["play_count"].sum()
+                avg_play = df["play_count"].mean()
+                top10 = df.nlargest(10, "play_count")
+            else:
+                total_play = 0
+                avg_play = 0
+                top10 = df.head(10)
         
         report_content = f"""---
 title: {platform}爆款内容分析报告
@@ -48,8 +85,9 @@ tags: ["数据分析", "爆款分析", "{platform}"]
 
 """
         
-        for _, row in top10.iterrows():
-            report_content += f"""
+        if not top10.empty:
+            for _, row in top10.iterrows():
+                report_content += f"""
 ### [{row.get('title', '无标题')}]({row.get('url', '#')})
 
 - **作者**: {row.get('author', '未知')}
@@ -73,7 +111,9 @@ tags: ["数据分析", "爆款分析", "{platform}"]
     def generate_product_report(self, platform: str, data: List[Dict[str, Any]]) -> str:
         df = pd.DataFrame(data)
         
-        if "profit" in df.columns:
+        if df.empty:
+            high_profit = pd.DataFrame()
+        elif "profit" in df.columns:
             high_profit = df[df["profit"] > 20].sort_values("profit", ascending=False)
         else:
             high_profit = df.head(20)
@@ -103,13 +143,14 @@ tags: ["选品", "电商", "{platform}"]
 |----------|----------|--------|----------|--------|
 """
         
-        for _, row in high_profit.head(15).iterrows():
-            price = row.get('price', 0)
-            cost = row.get('cost_price', price * 0.5)
-            profit = row.get('profit', price - cost - 8)
-            profit_rate = (profit / price * 100) if price > 0 else 0
-            
-            report_content += f"| {row.get('title', '未知')[:30]} | ¥{price:.2f} | ¥{cost:.2f} | **¥{profit:.2f}** | {profit_rate:.1f}% |\n"
+        if not high_profit.empty:
+            for _, row in high_profit.head(15).iterrows():
+                price = row.get('price', 0)
+                cost = row.get('cost_price', price * 0.5)
+                profit = row.get('profit', price - cost - 8)
+                profit_rate = (profit / price * 100) if price > 0 else 0
+                
+                report_content += f"| {row.get('title', '未知')[:30]} | ¥{price:.2f} | ¥{cost:.2f} | **¥{profit:.2f}** | {profit_rate:.1f}% |\n"
         
         report_content += """
 ## 📝 选品建议
