@@ -12,7 +12,7 @@ class AntiCrawlerHandler:
     """反爬策略处理器"""
     
     def __init__(self):
-        self.delay_range = (1.0, 4.0)
+        self.delay_range = (2.0, 5.0)
         self.request_count = 0
         self.last_request_time = 0
     

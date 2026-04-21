@@ -30,7 +30,13 @@ def data_to_document(data_list, show_detail: bool = True):
     for idx, item in enumerate(data_list[:20], 1):
         platform = item.get('platform', '').upper()
         title = item.get('video_info', {}).get('title', '') or item.get('title', '')
-        author = item.get('author', {}).get('name', '') or item.get('author', '')
+        
+        author_data = item.get('author', {})
+        if isinstance(author_data, dict):
+            author = author_data.get('name', '')
+        else:
+            author = str(author_data)
+        
         views = item.get('stats', {}).get('view_count', 0) or item.get('play_count', 0)
         likes = item.get('stats', {}).get('like_count', 0) or item.get('like_count', 0)
         comment_count = item.get('stats', {}).get('comment_count', 0) or item.get('comment_count', 0)
@@ -145,8 +151,8 @@ def run_crawler(zimeiti_platforms, xiaomaibu_platforms, mode, limit, keyword, fe
         except Exception as e:
             import traceback
             error_detail = traceback.format_exc()
-            status_msgs.append(f"❌ {platform}: 出错 - {str(e)}")
-            status_msgs.append(f"   详情: {error_detail[:200]}")
+            if str(e).strip() and str(e) != "0":
+                status_msgs.append(f"❌ {platform}: 出错 - {str(e)[:100]}")
     
     progress(1.0, desc="完成！")
     
@@ -154,23 +160,54 @@ def run_crawler(zimeiti_platforms, xiaomaibu_platforms, mode, limit, keyword, fe
     
     display_data = []
     for item in all_results:
+        author_data = item.get('author', {})
+        if isinstance(author_data, dict):
+            author = author_data.get('name', '')
+        else:
+            author = str(author_data)
+        
         row = {
             "平台": item.get('platform', '').upper(),
             "标题": item.get('video_info', {}).get('title', '') or item.get('title', ''),
-            "作者": item.get('author', {}).get('name', '') or item.get('author', ''),
+            "作者": author,
             "播放量": item.get('stats', {}).get('view_count', 0) or item.get('play_count', 0),
             "点赞数": item.get('stats', {}).get('like_count', 0) or item.get('like_count', 0),
-            "评论数": item.get('stats', {}).get('comment_count', 0) or item.get('comment_count', 0)
+            "评论数": item.get('stats', {}).get('comment_count', 0) or item.get('comment_count', 0),
+            "已抓评论": len(item.get('comments', [])),
+            "已抓弹幕": len(item.get('danmaku', []))
         }
         display_data.append(row)
     
     if display_data:
         df = pd.DataFrame(display_data)
-        status_text = "\n".join(status_msgs) + f"\n\n📊 总计: {len(all_results)} 条数据\n📁 JSON已保存到 data/ 目录\n📁 已自动同步到 Obsidian 知识库"
+        total_comments = sum(len(v.get('comments', [])) for v in all_results)
+        total_danmaku = sum(len(v.get('danmaku', [])) for v in all_results)
+        status_lines = []
+        if status_msgs:
+            status_lines.extend(status_msgs)
+        status_lines.extend([
+            "",
+            f"✅ 总计: {len(all_results)} 条内容",
+            f"💬 抓取评论: {total_comments} 条",
+            f"📝 抓取弹幕: {total_danmaku} 条",
+            "📁 JSON已保存到 sources/ 目录",
+            "📁 已自动同步到 Obsidian 知识库"
+        ])
+        status_text = "\n".join(status_lines)
         return df, status_text, document
     else:
-        status_text = "\n".join(status_msgs) if status_msgs else "⚠️ 未获取到数据（检查Cookie配置）"
-        return pd.DataFrame(), status_text, ""
+        status_lines = []
+        if status_msgs:
+            status_lines.extend(status_msgs)
+        status_lines.append("")
+        if not status_msgs:
+            status_lines.append("⚠️ 未获取到数据")
+            status_lines.append("💡 建议:")
+            status_lines.append("   1. 试试「热门内容」模式")
+            status_lines.append("   2. 减少抓取条数")
+            status_lines.append("   3. 如果频繁出现412错误，请配置Cookie")
+        status_text = "\n".join(status_lines)
+        return pd.DataFrame(), status_text, document
 
 
 def create_ui():

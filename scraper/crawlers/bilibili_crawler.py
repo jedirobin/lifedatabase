@@ -1,3 +1,4 @@
+import re
 from typing import List, Dict, Any
 
 import sys
@@ -69,32 +70,37 @@ class BilibiliScraper(BaseScraper):
         danmaku_list = []
         
         try:
-            api_url = f"https://comment.bilibili.com/{cid}.xml"
+            api_url = f"https://api.bilibili.com/x/v1/dm/list.so?oid={cid}"
             response = self.request(api_url)
             
-            if not response:
-                return danmaku_list
-            
-            import re
-            pattern = r'<d p="([^"]+)">([^<]+)</d>'
-            matches = re.findall(pattern, response.text)
-            
-            for match in matches[:500]:
-                attrs = match[0].split(',')
-                text = match[1]
+            if response:
+                try:
+                    content = response.content.decode('utf-8')
+                except UnicodeDecodeError:
+                    try:
+                        content = response.content.decode('gbk')
+                    except UnicodeDecodeError:
+                        content = response.content.decode('utf-8', errors='ignore')
                 
-                if len(attrs) >= 7:
-                    danmaku = {
-                        "time": float(attrs[0]),
-                        "type": int(attrs[1]),
-                        "font_size": int(attrs[2]),
-                        "color": attrs[3],
-                        "publish_time": int(attrs[4]),
-                        "pool": int(attrs[5]),
-                        "sender_id": attrs[6],
-                        "content": text
-                    }
-                    danmaku_list.append(danmaku)
+                pattern = r'<d p="([^"]+)">([^<]+)</d>'
+                matches = re.findall(pattern, content)
+                
+                for match in matches[:500]:
+                    attrs = match[0].split(',')
+                    text = match[1]
+                    
+                    if len(attrs) >= 7:
+                        danmaku = {
+                            "time": float(attrs[0]),
+                            "type": int(attrs[1]),
+                            "font_size": int(attrs[2]),
+                            "color": attrs[3],
+                            "publish_time": int(attrs[4]),
+                            "pool": int(attrs[5]),
+                            "sender_id": attrs[6],
+                            "content": text
+                        }
+                        danmaku_list.append(danmaku)
         
         except Exception as e:
             self.logger.debug(f"获取弹幕失败: {e}")

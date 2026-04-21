@@ -47,19 +47,22 @@ class ObsidianSyncer:
         flat_data = self._flatten_data(data)
         df = pd.DataFrame(flat_data)
         
+        total_comments = sum(len(v.get('comments', [])) for v in data)
+        total_danmaku = sum(len(v.get('danmaku', [])) for v in data)
+        
         if df.empty:
             total_play = 0
             avg_play = 0
-            top10 = pd.DataFrame()
+            top_items = []
         else:
             if "play_count" in df.columns:
                 total_play = df["play_count"].sum()
                 avg_play = df["play_count"].mean()
-                top10 = df.nlargest(10, "play_count")
+                top_items = data[:10]
             else:
                 total_play = 0
                 avg_play = 0
-                top10 = df.head(10)
+                top_items = data[:10]
         
         report_content = f"""---
 title: {platform}爆款内容分析报告
@@ -80,27 +83,68 @@ tags: ["数据分析", "爆款分析", "{platform}"]
 | 样本数量 | {len(df)} 条 |
 | 总播放/曝光量 | {total_play:,} |
 | 平均播放量 | {avg_play:,.0f} |
+| 抓取评论数 | {total_comments:,} 条 |
+| 抓取弹幕数 | {total_danmaku:,} 条 |
 
-## 🔥 Top 10 爆款内容
+## 🔥 爆款内容详情（Top 5）
 
 """
         
-        if not top10.empty:
-            for _, row in top10.iterrows():
-                report_content += f"""
-### [{row.get('title', '无标题')}]({row.get('url', '#')})
+        for idx, item in enumerate(top_items[:5], 1):
+            title = item.get('video_info', {}).get('title', '') or item.get('title', '')
+            url = item.get('video_info', {}).get('video_url', '') or item.get('url', '')
+            
+            author_data = item.get('author', {})
+            if isinstance(author_data, dict):
+                author = author_data.get('name', '')
+            else:
+                author = str(author_data)
+            
+            play_count = item.get('stats', {}).get('view_count', 0) or item.get('play_count', 0)
+            like_count = item.get('stats', {}).get('like_count', 0) or item.get('like_count', 0)
+            comments = item.get('comments', [])
+            danmaku = item.get('danmaku', [])
+            
+            report_content += f"""
+---
 
-- **作者**: {row.get('author', '未知')}
-- **播放/点赞**: {row.get('play_count', 0):,} / {row.get('like_count', 0):,}
-- **发布时间**: {row.get('publish_time', '未知')}
-- **核心标签**: {', '.join(row.get('tags', []))}
+### {idx}. [{title}]({url})
+
+| 项目 | 内容 |
+|------|------|
+| **作者** | {author} |
+| **播放** | {play_count:,} |
+| **点赞** | {like_count:,} |
+| **已抓评论** | {len(comments)} 条 |
+| **已抓弹幕** | {len(danmaku)} 条 |
 
 """
+            
+            if comments:
+                report_content += "\n#### 💬 精选评论\n\n"
+                for c_idx, c in enumerate(sorted(comments, key=lambda x: x.get('like_count', 0), reverse=True)[:5], 1):
+                    content = c.get('content', '').strip()
+                    c_author = c.get('author', '')
+                    c_likes = c.get('like_count', 0)
+                    if content:
+                        report_content += f"{c_idx}. **@{c_author}** (❤️ {c_likes})\n"
+                        report_content += f"   > {content}\n\n"
+            
+            if danmaku:
+                report_content += "\n#### 🔥 精选弹幕\n\n"
+                unique_dm = list({d.get('content', '') for d in danmaku[:100] if d.get('content', '').strip()})[:10]
+                for dm in unique_dm:
+                    if dm.strip():
+                        report_content += f"- {dm.strip()}\n"
         
         report_content += """
-## 💡 爆款洞察
+---
 
-请结合具体数据进一步分析爆款规律...
+## 💡 分析建议
+
+1. **弹幕关键词分析**：提取高频弹幕词了解观众实时反馈
+2. **评论情感分析**：分析高赞评论了解观众核心诉求
+3. **互动率对比**：评论数/播放数比值可衡量内容粘性
 
 ---
 
