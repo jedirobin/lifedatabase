@@ -1,0 +1,24 @@
+{
+    "knowledge_base": {
+        "name": "lifedatabase",
+        "version": "1.0",
+        "owner": "ZZAIZz",
+        "ai_name": "NEKO"
+    },
+    "paths": {
+        "sources": "sources/",
+        "memory": "memory/",
+        "outputs": "outputs/",
+        "inbox": "sources/inbox/",
+        "templates": "templates/"
+    },
+    "model": {
+        "primary": "glm-4-flash",
+        "fallback": ["deepseek-chat", "kimi-k2.5"],
+        "temperature": 0.7
+    },
+    "auto_sync": {
+        "enabled": true,
+        "interval_minutes": 30
+    }
+}
