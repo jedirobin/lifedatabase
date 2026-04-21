@@ -34,22 +34,32 @@ def data_to_document(data_list, show_detail: bool = True):
         author_data = item.get('author', {})
         if isinstance(author_data, dict):
             author = author_data.get('name', '')
+            fans_count = author_data.get('fans_count', 0)
         else:
             author = str(author_data)
+            fans_count = 0
         
         views = item.get('stats', {}).get('view_count', 0) or item.get('play_count', 0)
         likes = item.get('stats', {}).get('like_count', 0) or item.get('like_count', 0)
         comment_count = item.get('stats', {}).get('comment_count', 0) or item.get('comment_count', 0)
+        category = item.get('category', '')
+        publish_time_str = item.get('publish_time_str', '')
         url = item.get('video_info', {}).get('video_url', '') or item.get('url', '')
         
         fetched_comments = item.get('comments', [])
         fetched_danmaku = item.get('danmaku', [])
+        tags = item.get('tags', [])
         
         doc.append(f"\n---\n")
         doc.append(f"### {idx}. 【{platform}】{title}\n")
-        doc.append(f"- 👤 作者: **{author}**\n")
-        doc.append(f"- 👁️ 播放: **{views:,}**\n")
-        doc.append(f"- ❤️ 点赞: **{likes:,}**\n")
+        doc.append(f"- 👤 作者: **{author}** | 粉丝: **{fans_count:,}**\n")
+        if category:
+            doc.append(f"- 📂 分区: **{category}**\n")
+        if publish_time_str:
+            doc.append(f"- 📅 发布时间: **{publish_time_str}**\n")
+        doc.append(f"- 👁️ 播放: **{views:,}** | ❤️ 点赞: **{likes:,}**\n")
+        if tags:
+            doc.append(f"- 🏷️ 标签: **{', '.join(tags[:5])}**\n")
         doc.append(f"- 💬 评论总数: **{comment_count:,}** | 已抓取: **{len(fetched_comments)}** 条\n")
         doc.append(f"- 📝 弹幕已抓取: **{len(fetched_danmaku)}** 条\n")
         if url:
@@ -163,16 +173,19 @@ def run_crawler(zimeiti_platforms, xiaomaibu_platforms, mode, limit, keyword, fe
         author_data = item.get('author', {})
         if isinstance(author_data, dict):
             author = author_data.get('name', '')
+            fans_count = author_data.get('fans_count', 0)
         else:
             author = str(author_data)
+            fans_count = 0
         
         row = {
             "平台": item.get('platform', '').upper(),
             "标题": item.get('video_info', {}).get('title', '') or item.get('title', ''),
             "作者": author,
+            "作者粉丝": fans_count,
+            "分区": item.get('category', ''),
             "播放量": item.get('stats', {}).get('view_count', 0) or item.get('play_count', 0),
             "点赞数": item.get('stats', {}).get('like_count', 0) or item.get('like_count', 0),
-            "评论数": item.get('stats', {}).get('comment_count', 0) or item.get('comment_count', 0),
             "已抓评论": len(item.get('comments', [])),
             "已抓弹幕": len(item.get('danmaku', []))
         }

@@ -97,13 +97,18 @@ tags: ["数据分析", "爆款分析", "{platform}"]
             author_data = item.get('author', {})
             if isinstance(author_data, dict):
                 author = author_data.get('name', '')
+                fans_count = author_data.get('fans_count', 0)
             else:
                 author = str(author_data)
+                fans_count = 0
             
             play_count = item.get('stats', {}).get('view_count', 0) or item.get('play_count', 0)
             like_count = item.get('stats', {}).get('like_count', 0) or item.get('like_count', 0)
+            category = item.get('category', '')
+            publish_time_str = item.get('publish_time_str', '')
             comments = item.get('comments', [])
             danmaku = item.get('danmaku', [])
+            tags = item.get('tags', [])
             
             report_content += f"""
 ---
@@ -113,8 +118,12 @@ tags: ["数据分析", "爆款分析", "{platform}"]
 | 项目 | 内容 |
 |------|------|
 | **作者** | {author} |
+| **作者粉丝** | {fans_count:,} |
+| **分区** | {category} |
+| **发布时间** | {publish_time_str} |
 | **播放** | {play_count:,} |
 | **点赞** | {like_count:,} |
+| **标签** | {', '.join(tags[:5])} |
 | **已抓评论** | {len(comments)} 条 |
 | **已抓弹幕** | {len(danmaku)} 条 |
 
