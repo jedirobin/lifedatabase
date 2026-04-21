@@ -83,6 +83,17 @@ def compile_sources():
             except Exception as e:
                 print(f"⚠️ 处理失败: {file.name} - {e}")
     
+    clippings_dir = BASE_DIR / "Clippings"
+    if clippings_dir.exists():
+        print(f"📰 处理网页剪藏: Clippings/")
+        for file in clippings_dir.rglob("*.md"):
+            try:
+                content = file.read_text(encoding='utf-8')
+                entry = create_memory_entry(file, content)
+                all_entries.append(entry)
+            except Exception as e:
+                print(f"⚠️ 处理剪藏失败: {file.name} - {e}")
+    
     if all_entries:
         update_index(all_entries)
         print(f"🎉 编译完成，共处理 {len(all_entries)} 个文件")

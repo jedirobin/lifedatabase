@@ -287,8 +287,9 @@ class KnowledgeGraph:
         source_files = []
         for ext in ['*.md', '*.txt']:
             source_files.extend(SOURCES_DIR.rglob(ext))
+            source_files.extend(BASE_DIR.glob(f'Clippings/**/' + ext))
         
-        print(f"扫描到 {len(source_files)} 个源文件\n")
+        print(f"扫描到 {len(source_files)} 个源文件 (含 Clippings 网页剪藏)\n")
         
         total_insights = 0
         for f in source_files:
