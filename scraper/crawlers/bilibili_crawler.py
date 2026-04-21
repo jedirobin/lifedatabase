@@ -145,26 +145,31 @@ class BilibiliScraper(BaseScraper):
                 detail["author_info"] = {
                     "id": mid,
                     "name": owner.get("name", ""),
-                    "face": owner.get("face", "")
+                    "face": owner.get("face", ""),
+                    "fans_count": 0
                 }
                 
-                upstat_api = "https://api.bilibili.com/x/relation/stat"
-                upstat_params = {"vmid": mid}
-                upstat_result = self.request_json(upstat_api, params=upstat_params)
-                if upstat_result and upstat_result.get("code") == 0:
-                    detail["author_info"]["fans_count"] = upstat_result.get("data", {}).get("follower", 0)
-                else:
-                    detail["author_info"]["fans_count"] = 0
+                try:
+                    upstat_api = "https://api.bilibili.com/x/relation/stat"
+                    upstat_params = {"vmid": mid}
+                    upstat_result = self.request_json(upstat_api, params=upstat_params)
+                    if upstat_result and upstat_result.get("code") == 0:
+                        detail["author_info"]["fans_count"] = upstat_result.get("data", {}).get("follower", 0)
+                except Exception as e:
+                    self.logger.debug(f"获取粉丝数失败（继续执行）: {e}")
                 
                 tname = data.get("tname", "")
                 detail["category"] = tname
                 
-                tag_api = f"https://api.bilibili.com/x/tag/archive/tags"
-                tag_params = {"aid": aid}
-                tag_result = self.request_json(tag_api, params=tag_params)
-                if tag_result and tag_result.get("code") == 0:
-                    tags_data = tag_result.get("data", [])
-                    detail["tags"] = [t.get("tag_name", "") for t in tags_data if t.get("tag_name")]
+                try:
+                    tag_api = f"https://api.bilibili.com/x/tag/archive/tags"
+                    tag_params = {"aid": aid}
+                    tag_result = self.request_json(tag_api, params=tag_params)
+                    if tag_result and tag_result.get("code") == 0:
+                        tags_data = tag_result.get("data", [])
+                        detail["tags"] = [t.get("tag_name", "") for t in tags_data if t.get("tag_name")]
+                except Exception as e:
+                    self.logger.debug(f"获取标签失败（继续执行）: {e}")
                 
                 if self.fetch_comments:
                     detail["comments"] = self.get_video_comments(aid, bvid, self.max_comments_per_video)
