@@ -1,120 +1,201 @@
-# 知识库Schema定义
+# 知识库 Schema 定义
 
-> 本文档定义知识库的数据结构规范。所有新增页面需遵循此规范。
-
----
-
-## 一、页面类型
-
-| 类型 | 目录 | 说明 | Frontmatter字段 |
-|------|------|------|----------------|
-| account | memory/accounts/ | 社媒账号档案 | type, platform, followers |
-| project | memory/projects/ | 项目档案 | type, status, start_date |
-| person | memory/people/ | 人物档案 | type, role, organization |
-| concept | memory/concepts/ | 概念解释 | type, category, related |
-| decision | memory/decisions/ | 决策记录 | type, date, status |
-| insight | memory/insights/ | 洞察总结 | type, source, date |
-| script | memory/scripts/ | 定稿脚本 | type, platform, publish_date |
-| context | memory/context/ | 背景知识 | type, topic, last_updated |
+> 版本：v2.0 - Karpathy Wiki 图谱版
+> 更新时间：2026-04-21
 
 ---
 
-## 二、通用页面结构
+## 一、核心设计理念
 
-所有memory页面采用 **Compiled Truth + Timeline** 结构：
+### Karpathy Wiki 四大原则
+
+1. **原子化原则**：**一个页面 = 一个知识节点**
+   - 一个概念一页
+   - 一个人物一页
+   - 一个账号一页
+   - 一个洞察一页
+
+2. **双向链接原则**：所有关联都用 `[[页面名称]]` 链接
+   - 形成知识图谱
+   - Obsidian 自动显示反向链接
+
+3. **自组织原则**：无需人工分类
+   - AI 自动识别关系
+   - 通过链接自然聚类
+
+4. **可演化原则**：页面可以不断补充
+   - 新证据追加，不覆盖旧内容
+   - 保留观点演进历史
+
+---
+
+## 二、节点类型定义
+
+| 节点类型 | 目录 | 前缀 | 说明 |
+|---------|------|------|------|
+| 🧩 **概念** | `memory/concepts/` | `C-` | 术语、方法论、模型 |
+| 👤 **人物** | `memory/people/` | `P-` | UP主、创始人、专家 |
+| 📺 **账号** | `memory/accounts/` | `A-` | 社交媒体账号 |
+| 💡 **洞察** | `memory/insights/` | `I-` | 规律、结论、假设 |
+| 📋 **项目** | `memory/projects/` | `Prj-` | 运营项目、产品 |
+| 🔗 **关系** | `memory/relations/` | `R-` | 节点之间的关系证据 |
+
+---
+
+## 三、标准页面模板
+
+### 3.1 🧩 概念节点 (C-)
 
 ```markdown
 ---
-title: 页面标题
-type: account/project/person...
-tags: [tag1, tag2]
-created: YYYY-MM-DD
-updated: YYYY-MM-DD
+type: concept
+tags: ["方法论", "爆款"]
+aliases: ["互动率公式", "ER计算"]
 ---
 
-# 页面标题
+# 互动率 (Engagement Rate)
 
-## State（当前状态）
-最新信息的汇总，随时可被重写
+## 定义
+视频互动率 = (点赞 + 评论 + 投币 + 收藏) / 播放量
 
-## Assessment（判断）
-分析和评估结论
+## 计算公式
+```
+ER = (L + C + Coin + F) * 100% / V
+```
 
-## Open Threads（开放问题）
-- [ ] 待跟进事项1
-- [ ] 待跟进事项2
+## 相关节点
+- [[爆款内容阈值]]
+- [[完播率]]
+- [[A-钟钟AIZz]] 案例数据
 
----
-
-## Timeline（时间线）
-
-**YYYY-MM-DD** | 事件类型 — 事件描述
+## 证据来源
+1. [[B站账号分析报告 2026]]
+2. [[抖音运营手册]]
 ```
 
 ---
 
-## 三、Frontmatter规范
+### 3.2 👤 人物节点 (P-)
 
-### 账号档案（account）
-```yaml
+```markdown
 ---
-title: 账号名称
-type: account
-platform: douyin/bilibili/xiaohongshu/youtube
-followers: 粉丝数
-tags: [领域标签]
-created: YYYY-MM-DD
-updated: YYYY-MM-DD
+type: person
+tags: ["UP主", "鬼畜区"]
+aliases: ["万灵", "庄导"]
 ---
+
+# 万灵缝合厂
+
+## 基本信息
+- **UID**: 35xxxxxxxx
+- **入驻时间**: 2020年
+- **粉丝量**: 850,000+
+
+## 核心特征
+- 领域：[[鬼畜]] + [[明日方舟]]
+- 风格：剧情向 + 高质量调音
+- 更新频率：周更
+
+## 代表作品
+1. [[见面5秒开始战斗]]
+2. [[庄方宜你看又急]]
+
+## 关系网络
+- **合作**: [[朱一旦的枯燥生活]]
+- **同领域**: [[小可儿]], [[伊丽莎白鼠]]
+- [[鬼畜区食物链]] 位置: T1
 ```
 
-### 项目档案（project）
-```yaml
 ---
-title: 项目名称
-type: project
-status: planning/active/completed
-start_date: YYYY-MM-DD
-end_date: YYYY-MM-DD
-tags: [标签]
-created: YYYY-MM-DD
-updated: YYYY-MM-DD
+
+### 3.3 💡 洞察节点 (I-)
+
+```markdown
 ---
+type: insight
+confidence: 0.85
+tags: ["爆款规律"]
+---
+
+# 开头3秒必须有冲突点
+
+## 核心结论
+90% 的爆款视频在前 3 秒内必须建立：
+- 认知冲突（反常识）
+- 情绪冲突（愤怒/惊喜）
+- 利益冲突（"我居然不知道？"）
+
+## 统计证据
+| 样本量 | 符合率 | p值 |
+|--------|--------|-----|
+| 1,200  | 89.7%  | <0.01 |
+
+## 相关概念
+- [[钩子理论]]
+- [[黄金3秒法则]]
+
+## 反例
+- [[慢热型纪录片]] 账号不适用
 ```
 
 ---
 
-## 四、命名规范
+## 四、关系图谱规则
 
-- 文件名使用中文，与页面标题一致
-- 避免特殊字符和空格
-- 保持简洁明了
+### 4.1 链接语法
 
-示例：
-- `memory/accounts/钟钟的AI圈.md`
-- `memory/projects/知识库搭建.md`
+| 关系类型 | 链接方式 |
+|---------|----------|
+| 正向关联 | `[[目标页面]]` |
+| 反向提及 | 自动由 Obsidian 生成 |
+| 证据引用 | 见「证据来源」区块 |
 
----
+### 4.2 图谱构建流程
 
-## 五、标签规范
-
-### 平台标签
-- `#平台/抖音`
-- `#平台/B站`
-- `#平台/小红书`
-- `#平台/YouTube`
-
-### 内容标签
-- `#内容/知识付费`
-- `#内容/AI`
-- `#内容/个人成长`
-- `#内容/职场`
-
-### 状态标签
-- `#状态/进行中`
-- `#状态/已完成`
-- `#状态/观察中`
+```
+原始素材 → 原子化拆分 → 实体识别 → 自动链接 → 生成节点
+               ↓
+            关系抽取 → 验证置信度 → 补充到双方页面
+```
 
 ---
 
-*最后更新：2026-04-18*
+## 五、索引系统
+
+### 5.1 主索引 - index.md
+
+```markdown
+# 知识图谱索引
+
+## 概览统计
+| 类型 | 数量 |
+|------|------|
+| 🧩 概念 | X 个 |
+| 👤 人物 | X 个 |
+| 📺 账号 | X 个 |
+| 💡 洞察 | X 个 |
+
+## 最近更新
+- [[C-互动率]] - 2026-04-21
+- [[P-万灵缝合厂]] - 2026-04-21
+```
+
+### 5.2 分类索引
+
+- `index_concepts.md` - 所有概念节点
+- `index_people.md` - 所有人物节点
+- `index_insights.md` - 所有洞察节点
+
+---
+
+## 六、AI 处理规则
+
+1. **拆分优先**：长文档先拆成原子节点
+2. **链接优先**：遇到已知实体立刻加 `[[]]`
+3. **证据可追溯**：每个结论必须标注来源
+4. **冲突保留**：不同观点并存，标注置信度
+5. **增量更新**：新内容追加，不覆盖旧内容
+
+---
+
+*"Knowledge is a graph, not a tree"* — Karpathy
