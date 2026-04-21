@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+# -*- coding: utf-8 -*-
 """
 灵感库自动扩充脚本
 每天从多个来源抓取创意点子，自动分类入库
@@ -15,6 +16,10 @@
 2. 结果会自动写入灵感库文件
 3. 执行后 Git 提交推送
 """
+import sys
+import io
+sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8')
+sys.stderr = io.TextIOWrapper(sys.stderr.buffer, encoding='utf-8')
 
 import os
 import json
