@@ -1,6 +1,6 @@
 # 《最后一公里》AI生成数字资产清单
 
-> 本文档列出所有需要AI生成的角色、场景、道具，并附上nano banana2提示词
+> 本文档列出所有需要AI生成的角色、场景、道具，并附上中文提示词
 
 ---
 
@@ -25,21 +25,21 @@
 - 纠结挣扎（选择是否帮助）
 - 会心一笑（帮助后）
 
-**nano banana2 提示词**
+**中文提示词**
 
 **全身照（工作中）**
 ```
-Chinese delivery man, 28 years old, round face, black frame glasses, slightly tanned skin, wearing wrinkled blue courier uniform with worker ID badge, dark cargo pants, black backpack, riding an electric scooter with delivery box, urban street background, morning light with blue tint, realistic style, cinematic lighting, high detail, 4k
+中国快递员，28岁，圆脸，戴黑框眼镜，皮肤略黑，穿着皱巴巴的蓝色快递工服，胸前有工号牌，深色工装裤，背黑色双肩包，骑着电动车，车后有蓝色快递箱，城市街道背景，清晨光线略带蓝调，写实风格，电影感光影，高细节，4K画质
 ```
 
 **上半身特写（看表）**
 ```
-Chinese delivery man close-up, 28 years old, round face with black frame glasses, wearing blue courier uniform, looking at wrist watch with focused expression, sweat on forehead, side lighting, morning light, realistic portrait, cinematic, high detail, 4k
+中国快递员上半身特写，28岁，圆脸戴黑框眼镜，穿着蓝色快递工服，低头看手表，表情专注，额头有汗珠，侧光照射，清晨光线，写实人像，电影感，高细节，4K画质
 ```
 
 **表情变化组图**
 ```
-Chinese delivery man face expressions sheet, same character, 28 years old round face with glasses, showing multiple expressions: focused, annoyed, conflicted, warm smile, blue courier uniform collar, white background, character design, front view, high detail
+中国快递员表情参考图，同一角色，28岁圆脸戴眼镜，展示多种表情：认真专注、烦躁、纠结挣扎、会心一笑，穿蓝色快递工服衣领可见，白色背景，角色设计，正面视角，高细节
 ```
 
 ---
@@ -60,16 +60,16 @@ Chinese delivery man face expressions sheet, same character, 28 years old round 
 - 无奈（灯坏了没人帮）
 - 感动温暖（灯亮了）
 
-**nano banana2 提示词**
+**中文提示词**
 
 **全身照（日常）**
 ```
-Chinese elderly man, 72 years old, thin build, sparse white hair, wrinkles, wearing old plaid shirt with suspenders, holding a traditional palm leaf fan, standing in old apartment hallway, afternoon light, realistic style, cinematic, high detail, 4k
+中国老人，72岁，身材消瘦，白发稀疏，脸上皱纹明显，穿着旧格子衬衫和背带裤，手里拿着老式蒲扇，站在老旧小区楼道里，下午光线，写实风格，电影感，高细节，4K画质
 ```
 
 **特写（感动表情）**
 ```
-Chinese elderly man close-up, 72 years old, white hair, wrinkles, teary eyes with warm smile, grateful expression, warm indoor lighting from above, emotional portrait, cinematic, high detail, 4k
+中国老人脸部特写，72岁，白发，满脸皱纹，眼眶微红含泪，嘴角带着温暖的笑，感动的表情，头顶有暖黄色灯光照射，情绪感人的人像，电影感，高细节，4K画质
 ```
 
 ---
@@ -83,11 +83,11 @@ Chinese elderly man close-up, 72 years old, white hair, wrinkles, teary eyes wit
 **服装造型**
 - 休闲童装，色彩明亮
 
-**nano banana2 提示词**
+**中文提示词**
 
 **全身照（拿球）**
 ```
-Chinese cute child, 6-7 years old, holding a colorful toy ball, clear bright eyes, casual colorful clothes, standing on park path, backlit with sunlight, warm atmosphere, realistic, cinematic, high detail
+中国可爱小孩，6-7岁，手里抱着彩色玩具球，眼神清澈明亮，穿着色彩鲜艳的休闲童装，站在公园小路上，逆光，阳光从背后照射，温暖氛围，写实风格，电影感，高细节
 ```
 
 ---
@@ -101,11 +101,11 @@ Chinese cute child, 6-7 years old, holding a colorful toy ball, clear bright eye
 **服装造型**
 - 小学生服装，背着书包
 
-**nano banana2 提示词**
+**中文提示词**
 
 **全身照（焦急表情）**
 ```
-Chinese boy, 8 years old, anxious expression, red eyes, wearing school uniform with backpack, crouching on ground, searching through bag, convenience store entrance at night, worried look, realistic, cinematic lighting, high detail
+中国小男孩，8岁，表情焦急，眼眶微红，穿着小学校服，背着书包，蹲在地上，在翻找书包里的东西，便利店门口，夜晚，焦虑的表情，写实风格，电影感光影，高细节
 ```
 
 ---
@@ -119,11 +119,11 @@ Chinese boy, 8 years old, anxious expression, red eyes, wearing school uniform w
 **服装造型**
 - 便利店工作服（围裙）
 
-**nano banana2 提示词**
+**中文提示词**
 
 **全身照**
 ```
-Chinese woman, 30 years old, tired expression, wearing convenience store uniform with apron, standing in convenience store doorway, nighttime, fluorescent lighting, realistic, cinematic, high detail
+中国女性，30岁，表情疲惫，穿着便利店工作服和围裙，站在便利店门口，夜晚，荧光灯光线，写实风格，电影感，高细节
 ```
 
 ---
@@ -138,11 +138,11 @@ Chinese woman, 30 years old, tired expression, wearing convenience store uniform
 - 黄色外卖服（类似美团/饿了么）
 - 头盔
 
-**nano banana2 提示词**
+**中文提示词**
 
 **全身照**
 ```
-Chinese young delivery rider, early 20s, wearing yellow food delivery uniform with helmet, holding food container, standing in old apartment entrance, nighttime, realistic, cinematic, high detail
+中国年轻外卖骑手，20岁出头，穿着黄色外卖工作服，戴头盔，手里拿着外卖餐盒，站在老旧小区门口，夜晚，写实风格，电影感，高细节
 ```
 
 ---
@@ -156,11 +156,11 @@ Chinese young delivery rider, early 20s, wearing yellow food delivery uniform wi
 **服装造型**
 - 白大褂
 
-**nano banana2 提示词**
+**中文提示词**
 
 **全身照**
 ```
-Chinese female doctor, 40 years old, professional appearance, wearing white medical coat, standing in small community clinic, indoor lighting, about to leave work, realistic, cinematic, high detail
+中国女医生，40岁左右，专业气质，穿着白大褂，站在社区小诊所里，室内灯光，准备下班的样子，写实风格，电影感，高细节
 ```
 
 ---
@@ -174,11 +174,11 @@ Chinese female doctor, 40 years old, professional appearance, wearing white medi
 **服装造型**
 - 便利店工作服
 
-**nano banana2 提示词**
+**中文提示词**
 
 **全身照**
 ```
-Chinese middle-aged woman, 50 years old, warm friendly smile, wearing convenience store uniform, standing behind counter, warm indoor lighting, realistic, cinematic, high detail
+中国中年女性，50岁左右，面带温暖友好的笑容，穿着便利店工作服，站在收银台后面，温暖室内灯光，写实风格，电影感，高细节
 ```
 
 ---
@@ -192,32 +192,32 @@ Chinese middle-aged woman, 50 years old, warm friendly smile, wearing convenienc
 **服装造型**
 - 橙色环卫工作服
 
-**nano banana2 提示词**
+**中文提示词**
 
 **全身照**
 ```
-Chinese elderly sanitation worker, 60 years old, wearing orange work uniform, hesitant expression, standing at convenience store entrance, nighttime, cold weather, realistic, cinematic, high detail
+中国老年环卫工人，60岁左右，穿着橙色工作服，表情有些犹豫不好意思，站在便利店门口，夜晚，天气有点冷，写实风格，电影感，高细节
 ```
 
 ---
 
 ### 👥 路人群像
 
-**nano banana2 提示词**
+**中文提示词**
 
 **小学生**
 ```
-Chinese elementary school student, bright smile, wearing school uniform with red scarf, walking on street, daytime, happy expression, realistic, cinematic, high detail
+中国小学生，笑容灿烂，穿着校服，戴着红领巾，走在街道上，白天，开心的表情，写实风格，电影感，高细节
 ```
 
 **清洁工**
 ```
-Chinese street cleaner, middle-aged, wearing blue work uniform, pushing cleaning cart, early morning, tired but focused expression, realistic, cinematic, high detail
+中国街道清洁工，中年人，穿着蓝色工作服，推着清洁车，清晨，表情疲惫但专注，写实风格，电影感，高细节
 ```
 
 **白领**
 ```
-Chinese office worker, 30s, wearing business casual, walking on street with phone, tired expression, evening, city background, realistic, cinematic, high detail
+中国上班族，30多岁，穿着商务休闲装，边走路边看手机，疲惫的表情，傍晚，城市背景，写实风格，电影感，高细节
 ```
 
 ---
@@ -231,16 +231,16 @@ Chinese office worker, 30s, wearing business casual, walking on street with phon
 - 清晨光线，略带蓝调
 - 有树荫、建筑物
 
-**nano banana2 提示词**
+**中文提示词**
 
 **主观视角（骑行中）**
 ```
-Urban street view from electric scooter perspective, motion blur effect, modern Chinese city, early morning light with blue tint, trees and buildings on sides, phone navigation visible, dynamic composition, cinematic, realistic, 4k
+电动车主观视角的城市街道，运动模糊效果，现代中国城市，清晨光线略带蓝调，两侧有树木和建筑，可以看到手机导航界面，动态构图，电影感，写实风格，4K画质
 ```
 
 **中景（街道全景）**
 ```
-Chinese city street scene, early morning, soft blue lighting, modern buildings and trees, people walking and exercising, quiet atmosphere, wide shot, cinematic, realistic, 4k
+中国城市街景，清晨，柔和蓝调光线，现代建筑和树木，有人在散步晨练，安静氛围，广角镜头，电影感，写实风格，4K画质
 ```
 
 ---
@@ -252,10 +252,10 @@ Chinese city street scene, early morning, soft blue lighting, modern buildings a
 - 晨练老人、玩耍的孩子
 - 阳光透过树荫
 
-**nano banana2 提示词**
+**中文提示词**
 
 ```
-Small community park, morning sunlight through trees creating dappled shadows, elderly people exercising, children playing, peaceful atmosphere, Chinese urban setting, wide shot, cinematic, realistic, 4k
+小型社区公园，清晨阳光透过树叶洒下斑驳光影，老人在晨练，孩子在玩耍，宁静氛围，中国城市社区环境，广角镜头，电影感，写实风格，4K画质
 ```
 
 ---
@@ -267,16 +267,16 @@ Small community park, morning sunlight through trees creating dappled shadows, e
 - 斑驳的墙面，电线杆
 - 傍晚暖色光线，天空渐暗
 
-**nano banana2 提示词**
+**中文提示词**
 
 **外景**
 ```
-Old Chinese residential neighborhood, weathered building facades, utility poles with wires, evening warm lighting, sky turning dark, nostalgic atmosphere, realistic, cinematic, 4k
+中国老旧居民小区，斑驳的建筑外立面，电线杆上缠着电线，傍晚暖色光线，天空渐暗，怀旧氛围，写实风格，电影感，4K画质
 ```
 
 **楼道**
 ```
-Old apartment hallway, dim lighting, motion sensor light flickering, concrete stairs, peeling paint on walls, evening atmosphere, realistic, cinematic, 4k
+老旧公寓楼道，昏暗光线，声控灯忽明忽暗，水泥楼梯，墙皮脱落，傍晚氛围，写实风格，电影感，4K画质
 ```
 
 ---
@@ -290,21 +290,21 @@ Old apartment hallway, dim lighting, motion sensor light flickering, concrete st
 - 茶几上老式台灯
 - 天花板上有坏掉的灯泡
 
-**nano banana2 提示词**
+**中文提示词**
 
 **全景（灯灭时）**
 ```
-Simple old Chinese apartment interior, dark room, old furniture, framed photos on wall, vintage table lamp, basic living room, nighttime, only light from phone flashlight, realistic, cinematic, 4k
+简朴的中国老旧公寓室内，黑暗的房间，老旧家具，墙上挂着老照片框，茶几上有一盏老式台灯，简单客厅，夜晚，只有手机手电筒的光线，写实风格，电影感，4K画质
 ```
 
 **全景（灯亮时）**
 ```
-Simple old Chinese apartment interior, warm yellow light from ceiling bulb, cozy atmosphere, old furniture, framed photos, vintage table lamp on coffee table, elderly home, realistic, cinematic, 4k
+简朴的中国老旧公寓室内，天花板上灯泡发出的暖黄色光线充满整个房间，温馨氛围，老旧家具，墙上老照片，茶几上老式台灯，老人的家，写实风格，电影感，4K画质
 ```
 
 **特写（老照片和台灯）**
 ```
-Vintage table lamp and old framed photos close-up, old wooden table, warm indoor lighting, nostalgic atmosphere, detailed texture, realistic, cinematic, 4k
+老式台灯和老照片框特写，老木桌，温暖室内灯光，怀旧氛围，细节纹理清晰，写实风格，电影感，4K画质
 ```
 
 ---
@@ -316,10 +316,10 @@ Vintage table lamp and old framed photos close-up, old wooden table, warm indoor
 - 门口灯光明亮
 - 夜间背景
 
-**nano banana2 提示词**
+**中文提示词**
 
 ```
-Chinese convenience store exterior at night, bright fluorescent lighting from entrance, modern storefront, "24h" sign, dark street background, urban setting, realistic, cinematic, 4k
+中国便利店门口夜景，入口处明亮的荧光灯光线，现代店面，有24小时标志，暗色街道背景，城市环境，写实风格，电影感，4K画质
 ```
 
 ---
@@ -331,10 +331,10 @@ Chinese convenience store exterior at night, bright fluorescent lighting from en
 - 昏暗，有落叶堆
 - 花坛、垃圾桶
 
-**nano banana2 提示词**
+**中文提示词**
 
 ```
-Dark narrow alleyway at night, fallen leaves on ground, trash bins, small garden bed, phone flashlight beam illuminating, urban back alley, realistic, cinematic, 4k
+夜晚黑暗狭窄的小巷，地上有落叶堆，垃圾桶，小花坛，手机手电筒的光束照亮，城市后巷，写实风格，电影感，4K画质
 ```
 
 ---
@@ -346,16 +346,16 @@ Dark narrow alleyway at night, fallen leaves on ground, trash bins, small garden
 - 现代城市夜晚
 - 多彩灯光
 
-**nano banana2 提示词**
+**中文提示词**
 
 **街道**
 ```
-Chinese city night street, neon lights, colorful signage, modern buildings, bustling atmosphere, wide shot, cinematic, realistic, 4k
+中国城市夜景街道，霓虹灯光，多彩招牌，现代建筑，热闹氛围，广角镜头，电影感，写实风格，4K画质
 ```
 
 **全景（俯视，余温星河）**
 ```
-Aerial view of Chinese city at night, countless warm glowing lights like stars scattered across the cityscape, dreamy atmosphere, magical realism, cinematic, 4k
+中国城市夜景俯视，无数温暖的光点像星星一样散落在城市上空，梦幻氛围，魔幻现实主义，电影感，4K画质
 ```
 
 ---
@@ -367,10 +367,10 @@ Aerial view of Chinese city at night, countless warm glowing lights like stars s
 - 简洁的医疗环境
 - 诊桌、药柜
 
-**nano banana2 提示词**
+**中文提示词**
 
 ```
-Small community clinic interior, simple medical setting, examination table, medicine cabinet, white walls, fluorescent lighting, Chinese neighborhood clinic, realistic, cinematic, 4k
+小型社区诊所室内，简洁医疗环境，检查床，药柜，白色墙壁，荧光灯照明，中国社区诊所，写实风格，电影感，4K画质
 ```
 
 ---
@@ -382,10 +382,10 @@ Small community clinic interior, simple medical setting, examination table, medi
 - 收银台、货架
 - 温暖灯光
 
-**nano banana2 提示词**
+**中文提示词**
 
 ```
-Convenience store interior, checkout counter, product shelves, warm lighting, Chinese convenience store at night, cozy atmosphere, realistic, cinematic, 4k
+便利店室内，收银台，商品货架，温暖灯光，中国便利店夜晚，温馨氛围，写实风格，电影感，4K画质
 ```
 
 ---
@@ -399,100 +399,100 @@ Convenience store interior, checkout counter, product shelves, warm lighting, Ch
 - 蓝色快递箱
 - 贴满贴纸
 
-**nano banana2 提示词**
+**中文提示词**
 
 ```
-Electric delivery scooter, blue delivery box on back, covered with various stickers, parked on city street, daytime, Chinese urban setting, realistic, high detail, 4k
+快递电动车，后面有蓝色快递箱，箱子上贴满各种贴纸，停在街道上，白天，中国城市环境，写实风格，高细节，4K画质
 ```
 
 ---
 
 ### 📦 道具2：快递箱/快递单
 
-**nano banana2 提示词**
+**中文提示词**
 
 ```
-Brown cardboard delivery box with shipping label, Chinese address visible, close-up, simple background, realistic, high detail
+棕色纸箱快递盒，上面有快递单，可以看到中文地址，特写，简单背景，写实风格，高细节
 ```
 
 ---
 
 ### 📱 道具3：手机（显示快递APP）
 
-**nano banana2 提示词**
+**中文提示词**
 
 ```
-Smartphone screen showing delivery app notification, "加急件" message visible, Chinese interface, close-up, realistic, high detail
+智能手机屏幕显示快递APP通知，可以看到"加急件"消息，中文界面，特写，写实风格，高细节
 ```
 
 ---
 
 ### 🎾 道具4：彩色玩具球
 
-**nano banana2 提示词**
+**中文提示词**
 
 ```
-Colorful bouncing ball, plastic toy, rolling on asphalt road, sunlight backlighting creating glow, close-up, realistic, high detail
+彩色弹力球，塑料玩具，在沥青路上滚动，阳光逆光照射产生光晕，特写，写实风格，高细节
 ```
 
 ---
 
 ### 🪑 道具5：旧木凳子
 
-**nano banana2 提示词**
+**中文提示词**
 
 ```
-Old wooden stool, worn paint, vintage style, standing on floor, indoor setting, detailed texture, realistic, high detail
+旧木凳子，油漆磨损，复古风格，放在地板上，室内环境，细节纹理清晰，写实风格，高细节
 ```
 
 ---
 
 ### 💡 道具6：灯泡（亮/灭对比）
 
-**nano banana2 提示词**
+**中文提示词**
 
 ```
-Light bulb, warm yellow glow, hanging from ceiling, simple fixture, dark background, realistic, high detail
+灯泡，发出暖黄色光芒，挂在天花板上，简单灯座，深色背景，写实风格，高细节
 ```
 
 ---
 
 ### 🔦 道具7：手机手电筒光线
 
-**nano banana2 提示词**
+**中文提示词**
 
 ```
-Phone flashlight beam cutting through darkness, illuminating dust particles, dramatic lighting, realistic, high detail
+手机手电筒光束穿透黑暗，照亮空气中的灰尘颗粒，戏剧性光线，写实风格，高细节
 ```
 
 ---
 
 ### 🔑 道具8：钥匙串
 
-**nano banana2 提示词**
+**中文提示词**
 
 ```
-Set of keys on keychain, metal keys, found in fallen leaves, flashlight reflection, close-up, realistic, high detail
+钥匙串，金属钥匙，在落叶堆中被发现，手电筒反光，特写，写实风格，高细节
 ```
 
 ---
 
 ### 🍱 道具9：外卖餐盒
 
-**nano banana2 提示词**
+**中文提示词**
 
 ```
-Food delivery container, plastic box with logo, held in hand, Chinese takeout style, realistic, high detail
+外卖餐盒，塑料盒子上有品牌标志，拿在手里，中式外卖风格，写实风格，高细节
 ```
 
 ---
 
 ### ☕ 道具10：纸杯热饮
 
-**nano banana2 提示词**
+**中文提示词**
 
 ```
-Paper cup with hot water, steam rising, held in elderly hand, convenience store setting, warm atmosphere, realistic, high detail
+纸杯装热水，有蒸汽升起，拿在老人手里，便利店环境，温暖氛围，写实风格，高细节
 ```
 
 ---
@@ -516,26 +516,26 @@ Paper cup with hot water, steam rising, held in elderly hand, convenience store 
 - 像心跳一样的呼吸感
 - 数字渐变过渡
 
-### nano banana2 提示词
+### 中文提示词
 
 **暗淡余温数字（灰白）**
 ```
-Floating digital number "2:47", glowing faint gray-white color, like dying candle flame, soft aura around, hovering above head, dark background, magical realism, ethereal, cinematic, high detail
+悬浮的数字"2:47"，发出微弱的灰白色光芒，像即将熄灭的烛火，周围有柔和光晕，悬浮在头顶上方，深色背景，魔幻现实主义，空灵感，电影感，高细节
 ```
 
 **明亮余温数字（暖黄）**
 ```
-Floating digital number "3:12", glowing warm yellow color, like a lantern, bright aura radiating outward, hovering above head, dark background, magical realism, ethereal, cinematic, high detail
+悬浮的数字"3:12"，发出温暖的黄色光芒，像灯笼一样明亮，光晕向外扩散，悬浮在头顶上方，深色背景，魔幻现实主义，空灵感，电影感，高细节
 ```
 
 **星星光点（能力觉醒初期）**
 ```
-Cluster of twinkling star-like light particles, warm yellow color, flickering, floating in air, magical atmosphere, ethereal glow, cinematic, high detail
+一团闪烁的星星状光点，暖黄色，在微弱闪烁，漂浮在空中，魔幻氛围，空灵光芒，电影感，高细节
 ```
 
 **城市余温星河**
 ```
-Aerial night city view with countless floating warm lights above people's heads, like a galaxy of tiny stars scattered across urban landscape, magical realism, dreamy atmosphere, cinematic, 4k
+城市夜景俯视图，无数温暖的光点悬浮在人们头顶上方，像银河一样的微小星星散落在城市景观中，魔幻现实主义，梦幻氛围，电影感，4K画质
 ```
 
 ---
@@ -546,12 +546,12 @@ Aerial night city view with countless floating warm lights above people's heads,
 
 **镜头1：电动车主观视角**
 ```
-POV shot from electric scooter, motion blur, city street rushing forward, phone navigation visible, early morning blue light, dynamic, cinematic, 4k
+电动车主观视角镜头，运动模糊，城市街道快速后退，可以看到手机导航，清晨蓝调光线，动态感，电影感，4K画质
 ```
 
 **镜头9：小孩头顶星星（主观视角）**
 ```
-Child's head from behind, cluster of flickering warm yellow star particles floating above head, magical realism, POV shot, cinematic, high detail
+小孩的背影，头顶上方悬浮着一团闪烁的暖黄色星星光点，魔幻现实主义，主观视角，电影感，高细节
 ```
 
 ---
@@ -560,17 +560,17 @@ Child's head from behind, cluster of flickering warm yellow star particles float
 
 **镜头20：王大爷头顶余温数字**
 ```
-Elderly man's head and shoulders, faint gray number "2:47" glowing above head, dark room background, magical realism, cinematic, high detail
+老人的头部和肩膀，头顶上方悬浮着微弱的灰白色数字"2:47"，黑暗房间背景，魔幻现实主义，电影感，高细节
 ```
 
 **镜头33：灯亮了**
 ```
-Old apartment interior, warm yellow light flooding the room, contrast from dark to bright, cozy atmosphere, cinematic, realistic, 4k
+老旧公寓室内，暖黄色灯光充满整个房间，从暗到亮的对比，温馨氛围，电影感，写实风格，4K画质
 ```
 
 **镜头35：余温数字变化**
 ```
-Elderly man's head, number changing from dim gray "2:47" to bright yellow "3:12", warm light radiating outward, magical realism, cinematic, high detail
+老人的头部，数字从暗淡的灰白色"2:47"变成明亮的黄色"3:12"，温暖光芒向外扩散，魔幻现实主义，电影感，高细节
 ```
 
 ---
@@ -579,12 +579,12 @@ Elderly man's head, number changing from dim gray "2:47" to bright yellow "3:12"
 
 **镜头60：发现钥匙**
 ```
-Hand holding set of keys, flashlight illuminating, keys found among fallen leaves, night scene, dramatic lighting, realistic, high detail
+手拿着一串钥匙，手电筒照亮，钥匙在落叶堆中被发现，夜晚场景，戏剧性光线，写实风格，高细节
 ```
 
 **镜头63：小孩余温变化**
 ```
-Child's head, number changing from gray "89" to yellow "112", warm glow, magical realism, cinematic, high detail
+小孩的头部，数字从灰白色"89"变成黄色"112"，温暖光芒，魔幻现实主义，电影感，高细节
 ```
 
 ---
@@ -593,22 +593,22 @@ Child's head, number changing from gray "89" to yellow "112", warm glow, magical
 
 **镜头77：外卖小哥扶老人**
 ```
-Young delivery rider in yellow uniform helping elderly man stand up, dark apartment interior, emergency scene, cinematic, realistic, high detail
+穿黄色工作服的年轻外卖骑手扶着老人站起来，黑暗公寓室内，紧急场景，电影感，写实风格，高细节
 ```
 
 **镜头82：医生重新开灯**
 ```
-Female doctor turning light switch on, clinic interior, warm gesture, cinematic, realistic, high detail
+女医生打开灯的开关，诊所室内，温暖举动，电影感，写实风格，高细节
 ```
 
 **镜头86：老板娘招手**
 ```
-Middle-aged convenience store owner woman warmly gesturing to come in, night scene, friendly atmosphere, realistic, high detail
+中年便利店老板娘热情招手让人进来，夜晚场景，友好氛围，写实风格，高细节
 ```
 
 **镜头89：城市余温星河**
 ```
-Aerial view of night city, countless warm glowing lights floating above invisible people below, like a galaxy of warmth, magical realism, cinematic, 4k
+城市夜景俯视图，无数温暖的光点悬浮在看不见的人们头顶上方，像银河一样的温暖光芒，魔幻现实主义，电影感，4K画质
 ```
 
 ---
@@ -682,6 +682,7 @@ Aerial view of night city, countless warm glowing lights floating above invisibl
 
 ---
 
-*文档版本：v1.0*
+*文档版本：v2.0*
 *创建时间：2026-04-22*
+*更新说明：所有提示词改为中文*
 *关联剧本：最后一公里_分镜脚本.md*
