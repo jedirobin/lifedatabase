@@ -3,7 +3,9 @@ title: bilibili爆款创作SKILL
 type: insight
 platform: bilibili
 created: 2026-04-20
+updated: 2026-04-25
 tags: ["创作技巧", "爆款规律", "bilibili", "SKILL"]
+related: ["[[C-互动率]]", "[[C-爆款内容阈值]]", "[[C-黄金3秒法则]]"]
 ---
 
 # bilibili爆款创作SKILL

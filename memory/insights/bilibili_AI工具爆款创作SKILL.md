@@ -3,7 +3,9 @@ title: bilibili_AI工具爆款创作SKILL
 type: insight
 platform: bilibili_AI工具
 created: 2026-04-20
+updated: 2026-04-25
 tags: ["创作技巧", "爆款规律", "bilibili_AI工具", "SKILL"]
+related: ["[[C-互动率]]", "[[C-爆款内容阈值]]", "[[钟钟AIZz]]"]
 ---
 
 # bilibili_AI工具爆款创作SKILL

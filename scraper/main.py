@@ -18,13 +18,13 @@ def print_banner():
     
     print("=" * 60)
     print(r"""
-   _____           _   _____ _       _           
-  / ____|         | | / ____| |     | |          
- | |  __ _ __ __ _| || |    | |_   _| |__   ___  
- | | |_ | '__/ _` | || |    | | | | | '_ \ / _ \ 
- | |__| | | | (_| | || |____| | |_| | |_) |  __/ 
-  \_____|_|  \__,_|_| \_____|_|\__,_|_.__/ \___| 
-                                                 
+   _____           _   _____ _       _
+  / ____|         | | / ____| |     | |
+ | |  __ _ __ __ _| || |    | |_   _| |__   ___
+ | | |_ | '__/ _` | || |    | | | | | '_ \ / _ \
+ | |__| | | | (_| | || |____| | |_| | |_) |  __/
+  \_____|_|  \__,_|_| \_____|_|\__,_|_.__/ \___|
+
   GrabLab - 智能多平台爬虫 + 知识库系统 v1.0
     """)
     print("=" * 60)
@@ -103,6 +103,23 @@ def run_webui():
     webui()
 
 
+def run_dream_cycle():
+    from dream_cycle import DreamCycle
+    dream_cycle = DreamCycle()
+    dream_cycle.run_dream_cycle()
+
+
+def run_dream_scheduler():
+    from dream_cycle import DreamCycle
+    dream_cycle = DreamCycle()
+    dream_cycle.start()
+
+
+def run_mimo_test():
+    from mimo_client import test_connection
+    test_connection()
+
+
 def main():
     parser = argparse.ArgumentParser(description="🚀 智能多平台爬虫系统")
     parser.add_argument("-p", "--platform", 
@@ -119,6 +136,12 @@ def main():
                        help="执行一次完整任务并退出")
     parser.add_argument("-w", "--web", action="store_true",
                        help="启动Web前端界面")
+    parser.add_argument("-d", "--dream", action="store_true",
+                       help="执行一次梦境循环")
+    parser.add_argument("-ds", "--dream-scheduler", action="store_true",
+                       help="启动梦境循环定时任务")
+    parser.add_argument("-m", "--mimo", action="store_true",
+                       help="测试MiMo大模型连接")
     
     args = parser.parse_args()
     
@@ -130,6 +153,12 @@ def main():
         run_all(args.limit)
     elif args.web:
         run_webui()
+    elif args.dream:
+        run_dream_cycle()
+    elif args.dream_scheduler:
+        run_dream_scheduler()
+    elif args.mimo:
+        run_mimo_test()
     else:
         run_single_platform(args.platform, args.limit, args.keyword)
 

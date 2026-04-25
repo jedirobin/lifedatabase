@@ -15,6 +15,13 @@ COOKIES = {
     "1688": os.getenv("1688_COOKIE", ""),
     "pinduoduo": os.getenv("PINDUODUO_COOKIE", ""),
 }
+
+MIMO_CONFIG = {
+    "api_key": os.getenv("MIMO_API_KEY", ""),
+    "base_url": os.getenv("MIMO_BASE_URL", "https://token-plan-cn.xiaomimimo.com/v1"),
+    "model": os.getenv("MIMO_MODEL", "mimo-v2.5-pro"),
+}
+
 DATA_DIR = BASE_DIR / "data"
 MEMORY_DIR = ROOT_DIR / "memory"
 OUTPUTS_DIR = ROOT_DIR / "outputs"
@@ -40,7 +47,7 @@ SCHEDULE_CONFIG = {
     "analysis": "08:00"
 }
 
-PLATOFRM_CONFIG = {
+PLATFORM_CONFIG = {
     "bilibili": {
         "hot_url": "https://api.bilibili.com/x/web-interface/popular",
         "user_video_url": "https://api.bilibili.com/x/space/wbi/arc/search"

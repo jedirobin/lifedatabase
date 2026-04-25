@@ -12,20 +12,25 @@ Thumbs.db
 *.temp
 .tmp/
 
+# Python
+__pycache__/
+*.pyc
+*.pyo
+
 # 敏感信息
 SECRET.md
 *.secret
 *.key
 *.pem
+.env
+*.env
+!*.env.example
 
 # 大文件（视频等）
 *.mp4
 *.mov
 *.avi
 *.mkv
-
-
-
 
 # Ignore Smart Environment folder
 .smart-env
