@@ -56,3 +56,11 @@ updated: 2026-04-25
 ---
 
 *"Knowledge is a graph, not a tree"* — Karpathy
+
+---
+
+## 新增条目 (2026-05-01)
+
+- [[NEKO]] - projects
+- [[MiMo V25 Pro]] - projects
+- [[Andrej Karpathy]] - people
